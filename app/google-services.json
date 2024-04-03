@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "909876260556",
+    "project_id": "pi3-es-2024-time-19-a6ec2",
+    "storage_bucket": "pi3-es-2024-time-19-a6ec2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:909876260556:android:528fb6f5f76f1b14369c69",
+        "android_client_info": {
+          "package_name": "br.edu.puccampinas.pi3.armario"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDce9FvQ__7-mTr-O7R6FfP-ibEDQmZDV0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
