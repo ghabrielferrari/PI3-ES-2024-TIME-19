@@ -7,9 +7,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:909876260556:android:528fb6f5f76f1b14369c69",
+        "mobilesdk_app_id": "1:909876260556:android:87bf21a9ddee8bcc369c69",
         "android_client_info": {
-          "package_name": "br.edu.puccampinas.pi3.armario"
+          "package_name": "com.example.pi3_es_2024_time19"
         }
       },
       "oauth_client": [],
