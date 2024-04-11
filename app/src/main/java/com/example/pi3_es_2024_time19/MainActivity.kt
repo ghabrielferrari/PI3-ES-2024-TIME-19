@@ -10,6 +10,9 @@ import android.widget.Toolbar
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.replace
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.example.pi3_es_2024_time19.databinding.ActivityMainBinding
@@ -17,7 +20,7 @@ import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
 
-class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var btnLogout: Item
@@ -31,6 +34,20 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         setSupportActionBar(binding.toolbar)
 
         // Create action bar drawer btn
+        initializeActionBar()
+
+        // Start in lockers fragment
+        replaceFragment(LockersFragment())
+
+        addNavbarListener()
+//        val gson = Gson()
+    }
+
+    private fun setToolbarTitle(title: String) {
+        binding.toolbar.setTitle(title)
+    }
+
+    private fun initializeActionBar() {
         val actionBarDrawerToggle = ActionBarDrawerToggle(
             this,
             binding.drawerLayout,
@@ -41,32 +58,26 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         // Add drawer btn listener and sync the state of the drawer (open/closed)
         binding.drawerLayout.addDrawerListener(actionBarDrawerToggle)
         actionBarDrawerToggle.syncState()
-
-//        binding.navigationView.setOnClickListener { menuItem ->
-//            //  Handle Item Interaction
-//            when(menuItem.id) {
-//                R.id.btnLogout -> {
-//                    val intent: Intent = Intent(this, LoginActivity::class.java)
-//                    startActivity(intent)
-//                }
-//            }
-//        }
-//        val gson = Gson()
     }
 
-    private fun setToolbarTitle(title: String) {
-        binding.toolbar.setTitle(title)
-    }
-
-    override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        when(item.itemId) {
-            R.id.btnLogout -> {
-                val intent: Intent = Intent(this, LoginActivity::class.java)
-                Toast.makeText(this, "Logout!", Toast.LENGTH_LONG).show()
-                startActivity(intent)
-                return true
+    private fun addNavbarListener() {
+        binding.navBar.setOnItemSelectedListener {
+            //  Handle Item Interaction
+            when(it.itemId) {
+                R.id.btnPageLockers -> replaceFragment(LockersFragment())
+                R.id.btnPagePayment -> replaceFragment(PaymentFragment())
+                R.id.btnPageMap -> replaceFragment(MapFragment())
             }
+            true
         }
-        return false
     }
+
+    private  fun replaceFragment(fragment: Fragment) {
+        Toast.makeText(this, "Fragment Changed", Toast.LENGTH_SHORT).show()
+        val fragmentManager = supportFragmentManager
+        val fragmentTransaction = fragmentManager.beginTransaction()
+        fragmentTransaction.replace(R.id.frame_layout, fragment)
+        fragmentTransaction.commit()
+    }
+
 }

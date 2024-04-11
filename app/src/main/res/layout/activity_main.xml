@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
+    android:gravity="center"
     android:orientation="vertical"
     tools:context=".MainActivity"
     >
@@ -11,9 +12,9 @@
     <androidx.drawerlayout.widget.DrawerLayout
         android:id="@+id/drawer_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:elevation="16dp">
 
-        <!-- Main content -->
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -22,12 +23,11 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                app:layout_collapseMode="pin"
                 android:elevation="4dp"
                 app:title="Locks"
-                app:titleTextColor="@color/main_blue" />
-
-            <!-- Other content of your activity -->
+                app:titleTextColor="@color/main_blue"
+                android:layout_alignParentTop="true"
+                android:layout_above="@id/frame_layout"/>
 
         </RelativeLayout>
 
@@ -38,20 +38,28 @@
             android:layout_height="match_parent"
             android:layout_gravity="start"
             app:headerLayout="@layout/header_navigation_drawer"
-            app:menu="@menu/navigation_drawer"/>
+            app:menu="@menu/navigation_drawer" />
 
     </androidx.drawerlayout.widget.DrawerLayout>
 
-    <!-- Main content here (fragment) -->
+    <!-- Frame Layout (for fragments) -->
+    <FrameLayout
+        android:id="@+id/frame_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="56dp"
+        android:layout_marginBottom="0dp"
+        android:layout_centerInParent="true"
+        android:layout_above="@id/navBar"
+        android:layout_below="@id/toolbar"
+        android:layout_alignEnd="@id/toolbar"/>
 
-
-    <!--    Bottom Navigation Bar-->
+    <!-- Bottom Navigation Bar -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/navBar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="56dp"
         app:menu="@menu/bottom_navigation_menu"
-        android:layout_alignParentBottom="true"
-        />
+        android:layout_alignParentBottom="true"/>
 
 </RelativeLayout>
