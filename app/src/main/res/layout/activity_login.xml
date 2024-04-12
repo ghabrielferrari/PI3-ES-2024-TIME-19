@@ -6,6 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:padding="30dp"
+    android:layout_marginTop="100dp"
     tools:context=".LoginActivity">
 
     <androidx.appcompat.widget.AppCompatTextView
@@ -77,13 +78,39 @@
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 
-    <Button
-        android:id="@+id/btnOpenMainActivity"
+<!--    <Button-->
+<!--        android:id="@+id/btnOpenMainActivity"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_gravity="center_horizontal"-->
+<!--        android:layout_marginTop="20dp"-->
+<!--        android:text="Open Main Activity"/>-->
+
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="1dp"
+        android:background="@color/main_blue"
+        android:layout_marginTop="20dp"/>
+
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="20dp"
-        android:text="Open Main Activity"/>
+        android:layout_marginTop="20dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="OU"
+            android:textAlignment="center" />
+
+        <com.google.android.gms.common.SignInButton
+            android:layout_width="240dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp" />
+
+    </LinearLayout>
 
 
 </androidx.appcompat.widget.LinearLayoutCompat>
