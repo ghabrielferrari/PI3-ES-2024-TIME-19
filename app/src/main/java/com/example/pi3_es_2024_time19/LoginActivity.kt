@@ -28,6 +28,8 @@ class LoginActivity : AppCompatActivity() {
                 imm.hideSoftInputFromWindow(binding.root.windowToken, 0)
                 // Show Snackbar
                 snack.show()
+
+                openMainActivity()
             }
         }
 
@@ -35,7 +37,6 @@ class LoginActivity : AppCompatActivity() {
             val intent: Intent = Intent(this, CreateAccountActivity::class.java)
             startActivity(intent)
         })
-
 
     }
 

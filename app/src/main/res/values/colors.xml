@@ -9,4 +9,7 @@
     <color name="white">#FFFFFFFF</color>
     <color name="main_blue">#1554F6</color>
     <color name="main_blue_variant">#0022DD</color>
+    <color name="danger">#B00020</color>
+    <color name="gray">#aaaaaa</color>
+    <color name="warning">#e3c100</color>
 </resources>
