@@ -7,7 +7,7 @@ import android.widget.CheckBox
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.widget.AppCompatTextView
-import androidx.recyclerview.widget.RecyclerVie
+import androidx.recyclerview.widget.RecyclerView
 class AdapterArmarioListItem(
     private val lockers: MutableList<Locker>,
 //    private val action1Listener:
