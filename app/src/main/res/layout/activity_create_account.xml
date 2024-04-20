@@ -9,7 +9,7 @@
     android:paddingLeft="30dp"
     android:paddingRight="30dp"
     android:paddingBottom="30dp"
-    android:paddingTop="56dp"
+    android:layout_gravity="center"
     tools:context=".CreateAccountActivity">
 
     <androidx.appcompat.widget.AppCompatTextView
@@ -24,7 +24,7 @@
         android:id="@+id/tlNome"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="15dp"
         android:hint="nome completo"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
@@ -37,10 +37,26 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tlEmail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:hint="Email"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/tvEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tlCpf"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="15dp"
         android:hint="CPF"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <com.google.android.material.textfield.TextInputEditText
@@ -55,7 +71,7 @@
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="15dp"
         android:orientation="horizontal"
         android:gravity="start">
         <com.google.android.material.textview.MaterialTextView
@@ -78,7 +94,7 @@
         android:id="@+id/tlPhoneNum"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="15dp"
         app:helperTextEnabled="true"
         android:hint="Número de Telefone"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
@@ -93,7 +109,7 @@
         android:id="@+id/tlPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="15dp"
         app:endIconMode="password_toggle"
         android:hint="Senha"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
@@ -109,7 +125,7 @@
         android:id="@+id/tlConfirmPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="15dp"
         app:endIconMode="password_toggle"
         android:hint="Confirmar Senha"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
@@ -124,24 +140,26 @@
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="35dp"
         android:orientation="horizontal"
         android:layout_gravity="center_horizontal"
         >
+
+        <Button
+            android:id="@+id/btnExit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sair"
+            style="?attr/materialButtonOutlinedStyle"
+            />
         <Button
             android:id="@+id/btnCreateAccount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Criar Conta"
+            android:layout_marginStart="20dp"
             />
-        <Button
-            android:id="@+id/btnExit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:text="Sair"
-            style="?attr/materialButtonOutlinedStyle"
-            />
+
     </androidx.appcompat.widget.LinearLayoutCompat>
 
 </androidx.appcompat.widget.LinearLayoutCompat>

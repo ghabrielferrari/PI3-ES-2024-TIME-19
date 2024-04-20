@@ -8,18 +8,21 @@ import android.text.Editable
 import android.widget.Button
 import android.widget.DatePicker
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.text.set
 import com.example.pi3_es_2024_time19.databinding.ActivityCreateAccountBinding
+import com.google.firebase.auth.FirebaseAuth
 import java.util.Calendar
 
 class CreateAccountActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
-    var day = 0
-    var month = 0
-    var year = 0
-    var savedDay = 0
-    var savedMonth = 0
-    var savedYear = 0
+    private var day = 0
+    private var month = 0
+    private var year = 0
+    private var savedDay = 0
+    private var savedMonth = 0
+    private var savedYear = 0
+    private lateinit var auth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,6 +57,20 @@ class CreateAccountActivity : AppCompatActivity(), DatePickerDialog.OnDateSetLis
         savedDay = dayOfMonth
         val dateTextView = findViewById<TextView>(R.id.tvDateText)
         dateTextView.setText("$savedDay/$savedMonth/$savedYear")
+    }
+
+    private fun signUp(email: String, password: String) {
+        auth.createUserWithEmailAndPassword(email, password)
+            .addOnCompleteListener(this) { task ->
+                if (task.isSuccessful) {
+                    // Sign up success, update UI with the signed-in user's information
+                    val user = auth.currentUser
+                    // You can add further actions here after successful sign up
+                } else {
+                    // If sign up fails, display a message to the user.
+                    Toast.makeText(this, "Sign up failed.", Toast.LENGTH_SHORT).show()
+                }
+            }
     }
 
 }
