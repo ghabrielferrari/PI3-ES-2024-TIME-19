@@ -6,15 +6,20 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 
-class MapsFragment : Fragment() {
+class MapsFragment : Fragment(), GoogleMap.OnMarkerClickListener {
+
+    private  lateinit var googleMap: GoogleMap
 
     private val callback = OnMapReadyCallback { googleMap ->
         /**
@@ -26,9 +31,16 @@ class MapsFragment : Fragment() {
          * install it inside the SupportMapFragment. This method will only be triggered once the
          * user has installed Google Play services and returned to the app.
          */
-        val sydney = LatLng(-34.0, 151.0)
-        googleMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
-        googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
+        // Set Google Maps object.
+        this.googleMap = googleMap
+
+        addExistingLocations()
+
+        val campinas = LatLng(-22.9051, -47.0613)
+        val marker = googleMap.addMarker(MarkerOptions().position(campinas).title("Locker in Campinas"))
+        googleMap.moveCamera(CameraUpdateFactory.newLatLng(campinas))
+
+        onMarkerClick(marker as Marker)
     }
 
     override fun onCreateView(
@@ -44,4 +56,20 @@ class MapsFragment : Fragment() {
         val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
         mapFragment?.getMapAsync(callback)
     }
+
+    private fun addExistingLocations() {
+        // Example of adding existing locations
+        val location1 = LatLng(-35.0, 140.0)
+        val location2 = LatLng(-33.5, 160.5)
+
+        // Add markers for existing locations
+        //googleMap.addMarker(MarkerOptions().position(location1).title("Location 1"))
+        //googleMap.addMarker(MarkerOptions().position(location2).title("Location 2"))
+    }
+
+    override fun onMarkerClick(marker: Marker): Boolean {
+        Toast.makeText(context, "${marker.title}", Toast.LENGTH_SHORT).show()
+        return true
+    }
+
 }
