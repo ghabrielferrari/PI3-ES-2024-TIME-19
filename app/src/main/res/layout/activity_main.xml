@@ -13,7 +13,6 @@
         android:id="@+id/drawer_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:elevation="16dp"
         android:layout_marginBottom="56dp">
 
         <RelativeLayout
@@ -24,7 +23,6 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                android:elevation="4dp"
                 app:title="Locks"
                 app:titleTextColor="@color/main_blue"
                 android:layout_alignParentTop="true"
@@ -50,10 +48,8 @@
         android:layout_height="match_parent"
         android:layout_marginTop="56dp"
         android:layout_marginBottom="0dp"
-        android:layout_centerInParent="true"
         android:layout_above="@id/navBar"
-        android:layout_below="@id/toolbar"
-        android:layout_alignEnd="@id/toolbar"/>
+        android:layout_below="@id/toolbar" />
 
     <!-- Bottom Navigation Bar -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
@@ -61,7 +57,6 @@
         android:layout_width="match_parent"
         android:layout_height="56dp"
         app:menu="@menu/bottom_navigation_menu"
-        android:layout_alignParentBottom="true"
-        android:elevation="17dp"/>
+        android:layout_alignParentBottom="true"/>
 
 </RelativeLayout>
