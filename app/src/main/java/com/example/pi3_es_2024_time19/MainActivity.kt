@@ -20,12 +20,18 @@ import androidx.navigation.ui.setupWithNavController
 import com.example.pi3_es_2024_time19.databinding.ActivityMainBinding
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.Firebase
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.auth.auth
 import com.google.gson.Gson
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var btnLogout: Item
+    private lateinit var auth: FirebaseAuth
+    private lateinit var user: FirebaseUser
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,6 +49,10 @@ class MainActivity : AppCompatActivity() {
 
         addNavbarListener()
 //        val gson = Gson()
+
+        initFirebaseAuth()
+        user = auth.currentUser as FirebaseUser
+        Toast.makeText(this, "UID=${user.uid}", Toast.LENGTH_SHORT).show()
     }
 
     private fun setToolbarTitle(title: String) {
@@ -100,5 +110,10 @@ class MainActivity : AppCompatActivity() {
         } else {
             super.onBackPressed()
         }
+    }
+
+    private fun initFirebaseAuth() {
+        // Initialize Firebase Auth
+        auth = Firebase.auth
     }
 }
