@@ -16,7 +16,7 @@
         app:cardCornerRadius="50dp">
         <ImageView
             android:scaleType="centerCrop"
-            android:src="@mipmap/ic_launcher"
+            android:src="@mipmap/ic_channel"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </androidx.cardview.widget.CardView>
@@ -28,9 +28,11 @@
     android:layout_marginStart="24dp"
     android:layout_marginEnd="24dp"
     android:textAppearance="?attr/textAppearanceHeadline6"
-    android:text="Hello, [Name]" />
+        android:id="@+id/helloName"
+    android:text="Hello, Name" />
 
     <TextView
+        android:id="@+id/tvEmail"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_marginBottom="24dp"
@@ -38,6 +40,6 @@
     android:layout_marginEnd="24dp"
     android:textAppearance="?attr/textAppearanceBody2"
     android:textColor="@color/material_on_surface_emphasis_medium"
-    android:text="phone number here" />
+    android:text="email here" />
 
 </LinearLayout>

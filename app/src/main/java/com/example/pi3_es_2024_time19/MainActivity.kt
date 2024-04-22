@@ -29,7 +29,6 @@ import com.google.gson.Gson
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    private lateinit var btnLogout: Item
     private lateinit var auth: FirebaseAuth
     private lateinit var user: FirebaseUser
 
@@ -42,7 +41,7 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(binding.toolbar)
 
         // Create action bar drawer btn
-        initializeActionBar()
+        // initializeActionBar()
 
         // Start in lockers fragment
         replaceFragment(LockersFragment())
@@ -51,6 +50,7 @@ class MainActivity : AppCompatActivity() {
 //        val gson = Gson()
 
         initFirebaseAuth()
+        // Assign user
         user = auth.currentUser as FirebaseUser
         Toast.makeText(this, "UID=${user.uid}", Toast.LENGTH_SHORT).show()
     }
@@ -59,18 +59,18 @@ class MainActivity : AppCompatActivity() {
         binding.toolbar.setTitle(title)
     }
 
-    private fun initializeActionBar() {
-        val actionBarDrawerToggle = ActionBarDrawerToggle(
-            this,
-            binding.drawerLayout,
-            binding.toolbar,
-            R.string.navigation_drawer_open,
-            R.string.navigation_drawer_close
-        )
-        // Add drawer btn listener and sync the state of the drawer (open/closed)
-        binding.drawerLayout.addDrawerListener(actionBarDrawerToggle)
-        actionBarDrawerToggle.syncState()
-    }
+//    private fun initializeActionBar() {
+//        val actionBarDrawerToggle = ActionBarDrawerToggle(
+//            this,
+//            binding.drawerLayout,
+//            binding.toolbar,
+//            R.string.navigation_drawer_open,
+//            R.string.navigation_drawer_close
+//        )
+//        // Add drawer btn listener and sync the state of the drawer (open/closed)
+//        binding.drawerLayout.addDrawerListener(actionBarDrawerToggle)
+//        actionBarDrawerToggle.syncState()
+//    }
 
     private fun addNavbarListener() {
         binding.navBar.setOnItemSelectedListener {
@@ -79,6 +79,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.btnPageLockers -> replaceFragment(LockersFragment())
                 R.id.btnPagePayment -> replaceFragment(PaymentFragment())
                 R.id.btnPageMap -> replaceFragment(MapsFragment())
+                R.id.btnAccount -> replaceFragment(AccountFragment())
             }
             true
         }
@@ -92,25 +93,25 @@ class MainActivity : AppCompatActivity() {
         fragmentTransaction.commit()
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == android.R.id.home) {
-            if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
-                binding.drawerLayout.closeDrawer(GravityCompat.START)
-            } else {
-                binding.drawerLayout.openDrawer(GravityCompat.START)
-            }
-            return true
-        }
-        return super.onOptionsItemSelected(item)
-    }
+//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+//        if (item.itemId == android.R.id.home) {
+//            if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
+//                binding.drawerLayout.closeDrawer(GravityCompat.START)
+//            } else {
+//                binding.drawerLayout.openDrawer(GravityCompat.START)
+//            }
+//            return true
+//        }
+//        return super.onOptionsItemSelected(item)
+//    }
 
-    override fun onBackPressed() {
-        if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
-            binding.drawerLayout.closeDrawer(GravityCompat.START)
-        } else {
-            super.onBackPressed()
-        }
-    }
+//    override fun onBackPressed() {
+//        if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
+//            binding.drawerLayout.closeDrawer(GravityCompat.START)
+//        } else {
+//            super.onBackPressed()
+//        }
+//    }
 
     private fun initFirebaseAuth() {
         // Initialize Firebase Auth

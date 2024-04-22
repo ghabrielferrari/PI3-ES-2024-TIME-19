@@ -1,5 +1,6 @@
 package com.example.pi3_es_2024_time19
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -19,6 +20,11 @@ class LockersFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setBinding()
+
+        binding.btnAddNovoArmario.setOnClickListener {
+            val intent = Intent(context, RentLockerActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     override fun onCreateView(
