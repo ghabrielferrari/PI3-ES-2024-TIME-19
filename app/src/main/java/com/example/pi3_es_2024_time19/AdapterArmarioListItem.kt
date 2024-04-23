@@ -3,11 +3,10 @@ package com.example.pi3_es_2024_time19
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.CheckBox
-import android.widget.ImageView
 import android.widget.TextView
-import androidx.appcompat.widget.AppCompatTextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.pi3_es_2024_time19.models.Locker
+
 class AdapterArmarioListItem(
     private val lockers: MutableList<Locker>,
 //    private val action1Listener:
