@@ -13,6 +13,12 @@
         android:theme="@style/lockers_theme"
         tools:targetApi="31">
         <activity
+            android:name=".QrcodeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Alugar"
+            android:exported="false" />
+        <activity
             android:name=".activities.RegisterCardActivity"
             android:exported="false" />
         <!--
@@ -26,11 +32,11 @@
              project's local.properties file (e.g. MAPS_API_KEY=Aiza...), and replace the
              "YOUR_API_KEY" string in this file with "${MAPS_API_KEY}".
         -->
-
-<!--<meta-data
+        <!--
+<meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="${MAPS_API_KEY}" />-->
-
+            android:value="${MAPS_API_KEY}" />
+        -->
         <activity
             android:name=".activities.RentLockerActivity"
             android:exported="false" />
