@@ -5,8 +5,11 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.OnClickListener
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.Toast
+import androidx.lifecycle.findViewTreeViewModelStoreOwner
 import androidx.navigation.fragment.findNavController
 import com.example.pi3_es_2024_time19.databinding.ActivityMainBinding
 import com.example.pi3_es_2024_time19.databinding.FragmentAccountBinding
@@ -27,12 +30,6 @@ class AccountFragment : Fragment() {
 
         // Set current user
         user = auth.currentUser as FirebaseUser
-        Toast.makeText(context, "$user", Toast.LENGTH_SHORT).show()
-
-//        binding.btnLogout.setOnClickListener {
-//            //auth.signOut()
-//            Toast.makeText(context, "Hello BItch", Toast.LENGTH_SHORT).show()
-//        }
     }
 
     override fun onCreateView(
@@ -41,12 +38,23 @@ class AccountFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         binding = FragmentAccountBinding.inflate(layoutInflater, container, false)
+        binding.btnLogout.setOnClickListener {
+            Toast.makeText(context, "User Logged Out", Toast.LENGTH_SHORT).show()
+            auth.signOut()
+            openEntryActivity()
+        }
         return binding.root
     }
+
 
     private fun initFirebaseAuth() {
         // Initialize Firebase Auth
         auth = Firebase.auth
+    }
+
+    private fun openEntryActivity() {
+        val intent = Intent(context, AppEntryActivity::class.java)
+        startActivity(intent)
     }
 
 }

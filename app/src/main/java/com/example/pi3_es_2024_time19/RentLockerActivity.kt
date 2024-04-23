@@ -13,11 +13,7 @@ class RentLockerActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        binding = ActivityRentLockerBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        binding.btnNext.setOnClickListener {
-
-        }
     }
 }

@@ -19,12 +19,6 @@ class LockersFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setBinding()
-
-        binding.btnAddNovoArmario.setOnClickListener {
-            val intent = Intent(context, RentLockerActivity::class.java)
-            startActivity(intent)
-        }
     }
 
     override fun onCreateView(
@@ -32,7 +26,13 @@ class LockersFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_lockers, container, false)
+        setBinding()
+        binding.btnAddNovoArmario.setOnClickListener {
+            val intent = Intent(context, RentLockerActivity::class.java)
+            startActivity(intent)
+        }
+
+        return binding.root
     }
 
     private fun setBinding() {
