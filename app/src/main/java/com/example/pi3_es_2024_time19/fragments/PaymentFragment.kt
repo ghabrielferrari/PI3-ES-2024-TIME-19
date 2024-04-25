@@ -110,8 +110,12 @@ class PaymentFragment : Fragment() {
         cardList.add(card)
         rvCard.adapter?.notifyItemInserted(cardList.size - 1)
 
+        // Gerar um ID único para o cartão
+        val cardId = collectionRef.document().id
+        card.id = cardId
+
         // Adicionar ao Firestore
-        collectionRef.document(card.id).set(card)
+        collectionRef.document(cardId).set(card)
             .addOnSuccessListener {
                 Log.i("PaymentFragment", "Cartão adicionado ao Firestore com sucesso.")
             }

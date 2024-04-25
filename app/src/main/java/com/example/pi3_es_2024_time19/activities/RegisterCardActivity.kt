@@ -5,7 +5,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import com.example.pi3_es_2024_time19.R
 import com.example.pi3_es_2024_time19.databinding.ActivityRegisterCardBinding
 import com.example.pi3_es_2024_time19.models.Card
 import com.example.pi3_es_2024_time19.models.User
@@ -31,8 +30,9 @@ class RegisterCardActivity : AppCompatActivity() {
         FirebaseAuth.getInstance()
     }
 
-    private val firestore by lazy {
-        FirebaseFirestore.getInstance()
+    // Definindo a constante EXTRA_CARD diretamente em RegisterCardActivity
+    companion object {
+        const val EXTRA_CARD = "extra_card"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,7 +54,7 @@ class RegisterCardActivity : AppCompatActivity() {
                 Log.i("RegisterCardActivity", "Botão adicionar cartão clicado.")
                 if (validateFields()) {
                     val card = Card(user.id, numberCard, fullName, CPF, expirationDate, CCV)
-                    saveCardFirestore(card)
+                    sendCardToPaymentFragment(card)
                     showDialogSuccess(card)
                 } else {
                     Log.i("RegisterCardActivity", "Validação de campos falhou.")
@@ -78,16 +78,10 @@ class RegisterCardActivity : AppCompatActivity() {
             .show()
     }
 
-    private fun saveCardFirestore(card: Card) {
-        firestore
-            .collection("cartoes")
-            .document(card.id)
-            .set(card)
-            .addOnSuccessListener {
-                showToast("Sucesso ao adicionar o cartao")
-            }.addOnFailureListener {
-                showToast("Erro ao fazer seu cadastro")
-            }
+    private fun sendCardToPaymentFragment(card: Card) {
+        val intent = Intent()
+        intent.putExtra(EXTRA_CARD, card)
+        setResult(Activity.RESULT_OK, intent)
     }
 
     private fun validateFields(): Boolean {
@@ -105,9 +99,5 @@ class RegisterCardActivity : AppCompatActivity() {
 
         showToast("Todos os campos são obrigatórios.")
         return false
-    }
-
-    companion object {
-        const val EXTRA_CARD = "extra_card"
     }
 }
