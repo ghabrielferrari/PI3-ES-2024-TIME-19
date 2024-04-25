@@ -15,7 +15,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/baseline_account_circle_24" />
+        app:srcCompat="@drawable/ic_credit_card_payment" />
 
     <TextView
         android:id="@+id/textCard"
@@ -43,4 +43,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/textCard"
         app:layout_constraintTop_toTopOf="@+id/textCard" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

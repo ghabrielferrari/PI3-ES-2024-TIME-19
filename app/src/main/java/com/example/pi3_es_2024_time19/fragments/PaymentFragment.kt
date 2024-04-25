@@ -51,7 +51,7 @@ class PaymentFragment : Fragment() {
     private fun removeCard(card: Card) {
         collectionRef.document(card.id).delete()
             .addOnSuccessListener {
-                cardList.removeAll { it.id == card.id }
+                cardList.remove(card)
                 rvCard.adapter?.notifyDataSetChanged()
             }
             .addOnFailureListener { exception ->

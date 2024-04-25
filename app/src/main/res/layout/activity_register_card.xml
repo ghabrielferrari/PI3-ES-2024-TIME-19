@@ -150,11 +150,11 @@
 
     <Button
         android:id="@+id/btnAddCard"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="ADICIONAR CARTÃO"
         android:layout_marginTop="60dp"
-        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-        />
+        android:text="ADICIONAR CARTÃO"
+        android:textColor="@color/green" />
 
 </androidx.appcompat.widget.LinearLayoutCompat>
