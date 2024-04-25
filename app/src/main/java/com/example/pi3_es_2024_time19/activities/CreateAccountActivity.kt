@@ -1,17 +1,15 @@
-package com.example.pi3_es_2024_time19
+package com.example.pi3_es_2024_time19.activities
 
 import android.app.DatePickerDialog
 import android.content.Intent
 import android.os.Bundle
-import android.renderscript.ScriptGroup.Binding
-import android.text.Editable
-import android.widget.Button
 import android.widget.DatePicker
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.text.set
+import com.example.pi3_es_2024_time19.R
 import com.example.pi3_es_2024_time19.databinding.ActivityCreateAccountBinding
+import com.example.pi3_es_2024_time19.utils.showToast
 import com.google.firebase.auth.FirebaseAuth
 import java.util.Calendar
 
@@ -68,7 +66,7 @@ class CreateAccountActivity : AppCompatActivity(), DatePickerDialog.OnDateSetLis
                     // You can add further actions here after successful sign up
                 } else {
                     // If sign up fails, display a message to the user.
-                    Toast.makeText(this, "Sign up failed.", Toast.LENGTH_SHORT).show()
+                    showToast("Sign up failed.")
                 }
             }
     }

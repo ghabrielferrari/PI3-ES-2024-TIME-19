@@ -1,8 +1,6 @@
-package com.example.pi3_es_2024_time19
+package com.example.pi3_es_2024_time19.activities
 
-import android.content.Context
 import android.content.Intent
-import android.inputmethodservice.Keyboard
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.inputmethod.InputMethodManager
@@ -12,8 +10,6 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
-import kotlinx.coroutines.delay
-import kotlin.concurrent.timerTask
 
 class LoginActivity : AppCompatActivity() {
 

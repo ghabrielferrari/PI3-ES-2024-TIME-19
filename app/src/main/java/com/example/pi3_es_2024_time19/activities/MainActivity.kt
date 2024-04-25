@@ -1,30 +1,19 @@
-package com.example.pi3_es_2024_time19
+package com.example.pi3_es_2024_time19.activities
 
-import android.content.ClipData.Item
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.MenuItem
 import android.widget.Toast
-import android.widget.Toolbar
-import androidx.appcompat.app.ActionBar
-import androidx.appcompat.app.ActionBarDrawerToggle
-import androidx.core.view.GravityCompat
-import androidx.core.view.ViewCompat
-import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.replace
-import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.setupWithNavController
+import com.example.pi3_es_2024_time19.R
 import com.example.pi3_es_2024_time19.databinding.ActivityMainBinding
-import com.google.android.material.navigation.NavigationView
-import com.google.android.material.snackbar.Snackbar
+import com.example.pi3_es_2024_time19.fragments.AccountFragment
+import com.example.pi3_es_2024_time19.fragments.LockersFragment
+import com.example.pi3_es_2024_time19.fragments.MapsFragment
+import com.example.pi3_es_2024_time19.fragments.PaymentFragment
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.auth
-import com.google.gson.Gson
 
 class MainActivity : AppCompatActivity() {
 

@@ -1,4 +1,4 @@
-package com.example.pi3_es_2024_time19
+package com.example.pi3_es_2024_time19.fragments
 
 import android.content.Intent
 import android.os.Bundle

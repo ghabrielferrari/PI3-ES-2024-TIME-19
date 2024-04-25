@@ -1,13 +1,13 @@
-package com.example.pi3_es_2024_time19
+package com.example.pi3_es_2024_time19.adapters
 
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.CheckBox
-import android.widget.ImageView
 import android.widget.TextView
-import androidx.appcompat.widget.AppCompatTextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.pi3_es_2024_time19.models.Locker
+import com.example.pi3_es_2024_time19.R
+
 class AdapterArmarioListItem(
     private val lockers: MutableList<Locker>,
 //    private val action1Listener:
@@ -35,11 +35,11 @@ class AdapterArmarioListItem(
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): AdapterArmarioListItem.ArmarioViewHolder {
+    ): ArmarioViewHolder {
         TODO("Not yet implemented")
     }
 
-    override fun onBindViewHolder(holder: AdapterArmarioListItem.ArmarioViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ArmarioViewHolder, position: Int) {
         TODO("Not yet implemented")
     }
 

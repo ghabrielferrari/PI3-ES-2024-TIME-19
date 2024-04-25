@@ -1,19 +1,13 @@
 package com.example.pi3_es_2024_time19.activities
 
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
-import android.os.PersistableBundle
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import com.example.pi3_es_2024_time19.R
 import com.example.pi3_es_2024_time19.databinding.ActivityRegisterCardBinding
-import com.example.pi3_es_2024_time19.databinding.FragmentPaymentBinding
 import com.example.pi3_es_2024_time19.fragments.PaymentFragment
-import com.example.pi3_es_2024_time19.model.Card
-import com.example.pi3_es_2024_time19.model.User
+import com.example.pi3_es_2024_time19.models.Card
+import com.example.pi3_es_2024_time19.models.User
 import com.example.pi3_es_2024_time19.utils.showToast
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.auth.FirebaseAuth
@@ -40,6 +34,7 @@ class RegisterCardActivity : AppCompatActivity() {
         FirebaseFirestore.getInstance()
     }
 
+    private lateinit var updateCardList: (Card) -> Unit
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,6 +42,10 @@ class RegisterCardActivity : AppCompatActivity() {
 
         val currentUser = firebaseAuth.currentUser
         initializeClickEvents(currentUser)
+
+        updateCardList = intent.getSerializableExtra("update_card_list") as (Card) -> Unit
+
+        //updateCardList(newCard)
 
     }
 

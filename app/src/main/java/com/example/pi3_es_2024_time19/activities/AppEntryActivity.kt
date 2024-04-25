@@ -1,20 +1,15 @@
-package com.example.pi3_es_2024_time19
+package com.example.pi3_es_2024_time19.activities
 
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
-import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
+import com.example.pi3_es_2024_time19.R
 import com.example.pi3_es_2024_time19.databinding.ActivityAppEntryBinding
+import com.example.pi3_es_2024_time19.utils.showToast
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 class AppEntryActivity : AppCompatActivity() {
 
@@ -34,7 +29,7 @@ class AppEntryActivity : AppCompatActivity() {
 
         if (auth.currentUser != null) {
             handler.postDelayed({
-                Toast.makeText(this, "${auth.currentUser}", Toast.LENGTH_LONG).show()
+                showToast("${auth.currentUser}")
                 goToMainActivity()
             }, 2000)
 

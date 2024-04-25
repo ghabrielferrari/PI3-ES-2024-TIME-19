@@ -9,7 +9,7 @@
     android:paddingRight="30dp"
     android:paddingBottom="30dp"
     android:paddingTop="100dp"
-    tools:context=".LoginActivity">
+    tools:context=".activities.LoginActivity">
 
     <androidx.appcompat.widget.AppCompatTextView
         android:layout_width="match_parent"

@@ -1,4 +1,4 @@
-package com.example.pi3_es_2024_time19
+package com.example.pi3_es_2024_time19.fragments
 
 import android.content.Intent
 import android.os.Bundle
@@ -6,6 +6,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.example.pi3_es_2024_time19.R
+import com.example.pi3_es_2024_time19.activities.RentLockerActivity
 import com.example.pi3_es_2024_time19.databinding.FragmentLockersBinding
 
 /**
