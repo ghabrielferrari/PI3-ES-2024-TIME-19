@@ -1,4 +1,4 @@
-package com.example.pi3_es_2024_time19.model
+package com.example.pi3_es_2024_time19.models
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize

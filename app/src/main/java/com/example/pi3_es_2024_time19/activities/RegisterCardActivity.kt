@@ -2,6 +2,7 @@ package com.example.pi3_es_2024_time19.activities
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.example.pi3_es_2024_time19.R
 import com.example.pi3_es_2024_time19.databinding.ActivityRegisterCardBinding
@@ -20,11 +21,11 @@ class RegisterCardActivity : AppCompatActivity() {
         ActivityRegisterCardBinding.inflate(layoutInflater)
     }
 
-     private lateinit var numberCard: String
-     private lateinit var fullName: String
-     private lateinit var CPF: String
-     private lateinit var expirationDate: String
-     private lateinit var CCV: String
+    private lateinit var numberCard: String
+    private lateinit var fullName: String
+    private lateinit var CPF: String
+    private lateinit var expirationDate: String
+    private lateinit var CCV: String
 
     private val firebaseAuth by lazy {
         FirebaseAuth.getInstance()
@@ -34,7 +35,9 @@ class RegisterCardActivity : AppCompatActivity() {
         FirebaseFirestore.getInstance()
     }
 
-    private lateinit var updateCardList: (Card) -> Unit
+    interface OnCardAddedListener {
+        fun onCardAdded(card: Card)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,10 +45,6 @@ class RegisterCardActivity : AppCompatActivity() {
 
         val currentUser = firebaseAuth.currentUser
         initializeClickEvents(currentUser)
-
-        updateCardList = intent.getSerializableExtra("update_card_list") as (Card) -> Unit
-
-        //updateCardList(newCard)
 
     }
 
@@ -57,20 +56,26 @@ class RegisterCardActivity : AppCompatActivity() {
                 email = it.email ?: ""
             )
             binding.btnAddCard.setOnClickListener {
+                Log.i("RegisterCardActivity", "Botão adicionar cartão clicado.")
                 if(validateFields()){
+                    val card = Card(user.id, numberCard, fullName, CPF, expirationDate, CCV)
                     saveCardFirestore(user)
                     showDialogSucess(this){
-                        val fragment = PaymentFragment()
-                        val transaction = supportFragmentManager.beginTransaction()
-                        transaction.replace(R.id.fragment_container, fragment)
-                        transaction.addToBackStack(null)
-                        transaction.commit()
+                        val fragment = supportFragmentManager.findFragmentById(R.id.frame_layout)
+                        if (fragment is PaymentFragment) {
+                            fragment.onCardAdded(card)
+                        } else {
+                            Log.e("RegisterCardActivity", "Fragmento não é do tipo PaymentFragment")
+                        }
+                        finish() // Encerra a atividade após adicionar o cartão
                     }
+                } else {
+                    Log.i("RegisterCardActivity", "Validação de campos falhou.")
+                }
             }
-
+        } ?: run {
+            Log.i("RegisterCardActivity", "Usuário atual é nulo.")
         }
-    }
-
     }
 
     private fun showDialogSucess(context: Context, onPositiveButtonClick: () -> Unit) {

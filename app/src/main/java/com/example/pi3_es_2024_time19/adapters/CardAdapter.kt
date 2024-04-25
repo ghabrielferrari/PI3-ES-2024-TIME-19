@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.pi3_es_2024_time19.R
 import com.example.pi3_es_2024_time19.models.Card
+import com.google.firebase.firestore.DocumentReference
 
 class CardAdapter(
     private val cardList: MutableList<Card>,
