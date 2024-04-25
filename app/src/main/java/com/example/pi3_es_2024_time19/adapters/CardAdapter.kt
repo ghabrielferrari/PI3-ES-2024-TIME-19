@@ -8,20 +8,15 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.pi3_es_2024_time19.R
 import com.example.pi3_es_2024_time19.models.Card
-import com.google.firebase.firestore.DocumentReference
 
 class CardAdapter(
     private val cardList: MutableList<Card>,
     private val onDeleteCard: (Card) -> Unit
 ) : RecyclerView.Adapter<CardAdapter.CardViewHolder>() {
 
-    inner class CardViewHolder(
-        itemView: View
-    ) : RecyclerView.ViewHolder(itemView) {
-
+    inner class CardViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val textCard: TextView = itemView.findViewById(R.id.textCard)
         val btnRemove: TextView = itemView.findViewById(R.id.btnRemove)
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CardViewHolder {
@@ -56,5 +51,4 @@ class CardAdapter(
     override fun getItemCount(): Int {
         return cardList.size
     }
-
 }

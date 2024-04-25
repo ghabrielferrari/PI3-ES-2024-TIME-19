@@ -1,12 +1,12 @@
 package com.example.pi3_es_2024_time19.activities
 
-import android.content.Context
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.example.pi3_es_2024_time19.R
 import com.example.pi3_es_2024_time19.databinding.ActivityRegisterCardBinding
-import com.example.pi3_es_2024_time19.fragments.PaymentFragment
 import com.example.pi3_es_2024_time19.models.Card
 import com.example.pi3_es_2024_time19.models.User
 import com.example.pi3_es_2024_time19.utils.showToast
@@ -35,17 +35,12 @@ class RegisterCardActivity : AppCompatActivity() {
         FirebaseFirestore.getInstance()
     }
 
-    interface OnCardAddedListener {
-        fun onCardAdded(card: Card)
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
         val currentUser = firebaseAuth.currentUser
         initializeClickEvents(currentUser)
-
     }
 
     private fun initializeClickEvents(currentUser: FirebaseUser?) {
@@ -57,18 +52,10 @@ class RegisterCardActivity : AppCompatActivity() {
             )
             binding.btnAddCard.setOnClickListener {
                 Log.i("RegisterCardActivity", "Botão adicionar cartão clicado.")
-                if(validateFields()){
+                if (validateFields()) {
                     val card = Card(user.id, numberCard, fullName, CPF, expirationDate, CCV)
-                    saveCardFirestore(user)
-                    showDialogSucess(this){
-                        val fragment = supportFragmentManager.findFragmentById(R.id.frame_layout)
-                        if (fragment is PaymentFragment) {
-                            fragment.onCardAdded(card)
-                        } else {
-                            Log.e("RegisterCardActivity", "Fragmento não é do tipo PaymentFragment")
-                        }
-                        finish() // Encerra a atividade após adicionar o cartão
-                    }
+                    saveCardFirestore(card)
+                    showDialogSuccess(card)
                 } else {
                     Log.i("RegisterCardActivity", "Validação de campos falhou.")
                 }
@@ -78,26 +65,20 @@ class RegisterCardActivity : AppCompatActivity() {
         }
     }
 
-    private fun showDialogSucess(context: Context, onPositiveButtonClick: () -> Unit) {
-        MaterialAlertDialogBuilder(context)
+    private fun showDialogSuccess(card: Card) {
+        MaterialAlertDialogBuilder(this)
             .setTitle("Cartão Adicionado")
             .setMessage("Sucesso!")
             .setPositiveButton("OK") { _, _ ->
-                onPositiveButtonClick()
+                val intent = Intent()
+                intent.putExtra(EXTRA_CARD, card)
+                setResult(Activity.RESULT_OK, intent)
+                finish()
             }
             .show()
     }
 
-    private fun saveCardFirestore(user: User) {
-        val card = Card(
-            id = user.id,
-            numberCard = numberCard,
-            fullName = fullName,
-            CPF = CPF,
-            expirationDate = expirationDate,
-            CCV = CCV
-        )
-
+    private fun saveCardFirestore(card: Card) {
         firestore
             .collection("cartoes")
             .document(card.id)
@@ -107,7 +88,6 @@ class RegisterCardActivity : AppCompatActivity() {
             }.addOnFailureListener {
                 showToast("Erro ao fazer seu cadastro")
             }
-
     }
 
     private fun validateFields(): Boolean {
@@ -117,37 +97,17 @@ class RegisterCardActivity : AppCompatActivity() {
         expirationDate = binding.editExpirationDate.text.toString()
         CCV = binding.editCCV.text.toString()
 
-        if (numberCard.isNotEmpty()) {
-            binding.textInputNumberCard.error = null
-            if (fullName.isNotEmpty()) {
-                binding.textInputFullName.error = null
-                if (CPF.isNotEmpty()) {
-                    binding.textInputCPF.error = null
-                    if (expirationDate.isNotEmpty()) {
-                        binding.textInputExpirationDate.error = null
-                        if (CCV.isNotEmpty()) {
-                            binding.textInputCCV.error = null
-                            return true
-                        } else {
-                            binding.textInputCCV.error = "CVV é obrigatório"
-                            return false
-                        }
-                    } else {
-                        binding.textInputExpirationDate.error = "Vencimento é obrigatório"
-                        return false
-                    }
-                } else {
-                    binding.textInputCPF.error = "CPF é obrigatório"
-                    return false
-                }
-            } else {
-                binding.textInputFullName.error = "Nome completo é obrigatório"
-                return false
-            }
-        } else {
-            binding.textInputNumberCard.error = "Número do cartão é obrigatório"
-            return false
+        if (numberCard.isNotEmpty() && fullName.isNotEmpty() && CPF.isNotEmpty() &&
+            expirationDate.isNotEmpty() && CCV.isNotEmpty()
+        ) {
+            return true
         }
+
+        showToast("Todos os campos são obrigatórios.")
+        return false
     }
 
+    companion object {
+        const val EXTRA_CARD = "extra_card"
+    }
 }

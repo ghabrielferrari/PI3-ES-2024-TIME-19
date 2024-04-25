@@ -1,5 +1,6 @@
 package com.example.pi3_es_2024_time19.fragments
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -17,7 +18,7 @@ import com.example.pi3_es_2024_time19.models.Card
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
 
-class PaymentFragment : Fragment(), RegisterCardActivity.OnCardAddedListener {
+class PaymentFragment : Fragment() {
 
     private lateinit var binding: FragmentPaymentBinding
     private lateinit var cardList: MutableList<Card>
@@ -47,11 +48,11 @@ class PaymentFragment : Fragment(), RegisterCardActivity.OnCardAddedListener {
         return binding.root
     }
 
-
     private fun removeCard(card: Card) {
         collectionRef.document(card.id).delete()
             .addOnSuccessListener {
                 cardList.removeAll { it.id == card.id }
+                rvCard.adapter?.notifyDataSetChanged()
             }
             .addOnFailureListener { exception ->
                 Toast.makeText(
@@ -68,8 +69,9 @@ class PaymentFragment : Fragment(), RegisterCardActivity.OnCardAddedListener {
 
         val btnAddNewCard = binding.btnAddNewCard
         btnAddNewCard.setOnClickListener {
-            startActivity(
-                Intent(requireContext(), RegisterCardActivity::class.java)
+            startActivityForResult(
+                Intent(requireContext(), RegisterCardActivity::class.java),
+                REQUEST_CODE_ADD_CARD
             )
         }
     }
@@ -92,14 +94,18 @@ class PaymentFragment : Fragment(), RegisterCardActivity.OnCardAddedListener {
             }
     }
 
-    private fun setupRecyclerView() {
-        rvCard.adapter = CardAdapter(cardList) { card ->
-            removeCard(card)
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == REQUEST_CODE_ADD_CARD && resultCode == Activity.RESULT_OK) {
+            val card = data?.getParcelableExtra<Card>(RegisterCardActivity.EXTRA_CARD)
+            card?.let {
+                onCardAdded(it)
+            }
         }
-        rvCard.layoutManager = LinearLayoutManager(context)
     }
 
-    override fun onCardAdded(card: Card) {
+    private fun onCardAdded(card: Card) {
         Log.i("PaymentFragment", "Cartão adicionado: $card")
         cardList.add(card)
         rvCard.adapter?.notifyItemInserted(cardList.size - 1)
@@ -119,6 +125,7 @@ class PaymentFragment : Fragment(), RegisterCardActivity.OnCardAddedListener {
             }
     }
 
-
-
+    companion object {
+        const val REQUEST_CODE_ADD_CARD = 1001
+    }
 }
