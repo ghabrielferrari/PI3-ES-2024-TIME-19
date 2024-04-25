@@ -1,11 +1,12 @@
 package com.example.pi3_es_2024_time19.utils
 
 import android.app.Activity
+import android.content.Context
 import android.view.View
 import android.widget.Toast
 import com.google.android.material.snackbar.Snackbar
 
-fun Activity.showToast(message: String){
+fun Context.showToast(message: String){
     Toast.makeText(
         this,
         message,

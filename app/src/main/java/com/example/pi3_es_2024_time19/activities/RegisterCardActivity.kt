@@ -30,7 +30,8 @@ class RegisterCardActivity : AppCompatActivity() {
         FirebaseAuth.getInstance()
     }
 
-    // Definindo a constante EXTRA_CARD diretamente em RegisterCardActivity
+    private lateinit var user: User
+
     companion object {
         const val EXTRA_CARD = "extra_card"
     }
@@ -45,7 +46,7 @@ class RegisterCardActivity : AppCompatActivity() {
 
     private fun initializeClickEvents(currentUser: FirebaseUser?) {
         currentUser?.let {
-            val user = User(
+            user = User(
                 id = it.uid,
                 name = it.displayName ?: "",
                 email = it.email ?: ""
@@ -53,9 +54,7 @@ class RegisterCardActivity : AppCompatActivity() {
             binding.btnAddCard.setOnClickListener {
                 Log.i("RegisterCardActivity", "Botão adicionar cartão clicado.")
                 if (validateFields()) {
-                    val card = Card(user.id, numberCard, fullName, CPF, expirationDate, CCV)
-                    sendCardToPaymentFragment(card)
-                    showDialogSuccess(card)
+                    // Fields are valid, proceed with card registration
                 } else {
                     Log.i("RegisterCardActivity", "Validação de campos falhou.")
                 }
@@ -63,6 +62,98 @@ class RegisterCardActivity : AppCompatActivity() {
         } ?: run {
             Log.i("RegisterCardActivity", "Usuário atual é nulo.")
         }
+    }
+
+    private fun validateFields(): Boolean {
+        numberCard = binding.editNumberCard.text.toString()
+        fullName = binding.editFullName.text.toString()
+        CPF = binding.editCPF.text.toString()
+        expirationDate = binding.editExpirationDate.text.toString()
+        CCV = binding.editCCV.text.toString()
+
+        if (numberCard.length != 16 || !numberCard.matches(Regex("\\d{16}"))) {
+            showToast("Número de cartão inválido. Deve ter 16 dígitos.")
+            return false
+        }
+
+        if (fullName.isBlank() || !fullName.matches(Regex("^[a-zA-ZÀ-ú ]+$")) || fullName.length > 50) {
+            showToast("Nome deve ter apenas letras e no máximo 50 caracteres.")
+            return false
+        }
+
+        if (CPF.length != 11 || !CPF.matches(Regex("\\d{11}"))) {
+            showToast("CPF inválido. Deve ter 11 dígitos.")
+            return false
+        }
+
+        if (!expirationDate.matches(Regex("^(0[1-9]|1[0-2])(24|25|26|27|28|29|30)$"))) {
+            showToast("Data de vencimento inválida. Formato MM/YY.")
+            return false
+        }
+
+        if (CCV.length != 3 || !CCV.matches(Regex("\\d{3}"))) {
+            showToast("CCV inválido. Deve ter 3 dígitos.")
+            return false
+        }
+
+        // Check uniqueness of numberCard
+        return checkUniqueNumberCard(numberCard)
+    }
+
+    private fun checkUniqueNumberCard(numberCard: String): Boolean {
+        var isNumberCardUnique = true
+
+        val db = FirebaseFirestore.getInstance()
+        val collection = db.collection("cartoes")
+        collection.whereEqualTo("numberCard", numberCard)
+            .whereEqualTo("id", user.id)
+            .get()
+            .addOnSuccessListener { documents ->
+                if (!documents.isEmpty) {
+                    showToast("Número de cartão já cadastrado.")
+                    isNumberCardUnique = false
+                } else {
+                    // Check uniqueness of fullName
+                    checkUniqueName(fullName)
+                }
+            }
+            .addOnFailureListener {
+                showToast("Erro ao verificar número do cartão.")
+                isNumberCardUnique = false
+            }
+
+        return isNumberCardUnique
+    }
+
+    private fun checkUniqueName(name: String): Boolean {
+        var isNameUnique = true
+
+        val db = FirebaseFirestore.getInstance()
+        val collection = db.collection("cartoes")
+        collection.whereEqualTo("fullName", name)
+            .whereEqualTo("id", user.id)
+            .get()
+            .addOnSuccessListener { documents ->
+                if (!documents.isEmpty) {
+                    showToast("Nome já cadastrado.")
+                    isNameUnique = false
+                } else {
+                    // All fields are valid and unique
+                    proceedWithCardRegistration()
+                }
+            }
+            .addOnFailureListener {
+                showToast("Erro ao verificar nome.")
+                isNameUnique = false
+            }
+
+        return isNameUnique
+    }
+
+    private fun proceedWithCardRegistration() {
+        val card = Card(user.id, numberCard, fullName, CPF, expirationDate, CCV)
+        sendCardToPaymentFragment(card)
+        showDialogSuccess(card)
     }
 
     private fun showDialogSuccess(card: Card) {
@@ -82,22 +173,5 @@ class RegisterCardActivity : AppCompatActivity() {
         val intent = Intent()
         intent.putExtra(EXTRA_CARD, card)
         setResult(Activity.RESULT_OK, intent)
-    }
-
-    private fun validateFields(): Boolean {
-        numberCard = binding.editNumberCard.text.toString()
-        fullName = binding.editFullName.text.toString()
-        CPF = binding.editCPF.text.toString()
-        expirationDate = binding.editExpirationDate.text.toString()
-        CCV = binding.editCCV.text.toString()
-
-        if (numberCard.isNotEmpty() && fullName.isNotEmpty() && CPF.isNotEmpty() &&
-            expirationDate.isNotEmpty() && CCV.isNotEmpty()
-        ) {
-            return true
-        }
-
-        showToast("Todos os campos são obrigatórios.")
-        return false
     }
 }
