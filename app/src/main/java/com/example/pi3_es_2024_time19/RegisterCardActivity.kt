@@ -53,13 +53,6 @@ class RegisterCardActivity : AppCompatActivity() {
             binding.btnAddCard.setOnClickListener {
                 if(validateFields()){
                     saveCardFirestore(user)
-                    showDialogSucess(this){
-                        val fragment = PaymentFragment()
-                        val transaction = supportFragmentManager.beginTransaction()
-//                        transaction.replace(R.id.fragment_container, fragment)
-                        transaction.addToBackStack(null)
-                        transaction.commit()
-                    }
             }
 
         }
@@ -93,6 +86,13 @@ class RegisterCardActivity : AppCompatActivity() {
             .set(card)
             .addOnSuccessListener {
                 showToast("Sucesso ao adicionar o cartao")
+                showDialogSucess(this){
+                    val fragment = PaymentFragment()
+                    val transaction = supportFragmentManager.beginTransaction()
+//                        transaction.replace(R.id.fragment_container, fragment)
+                    transaction.addToBackStack(null)
+                    transaction.commit()
+                }
             }.addOnFailureListener {
                 showToast("Erro ao fazer seu cadastro")
             }

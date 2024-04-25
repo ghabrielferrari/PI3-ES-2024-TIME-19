@@ -40,7 +40,7 @@ class MainActivity : AppCompatActivity() {
         initFirebaseAuth()
         // Assign user
         user = auth.currentUser as FirebaseUser
-        Toast.makeText(this, "UID=${user.uid}", Toast.LENGTH_SHORT).show()
+//        Toast.makeText(this, "UID=${user.uid}", Toast.LENGTH_SHORT).show()
     }
 
     private fun setToolbarTitle(title: String) {
@@ -74,7 +74,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private  fun replaceFragment(fragment: Fragment) {
-        Toast.makeText(this, "Fragment Changed", Toast.LENGTH_SHORT).show()
+//        Toast.makeText(this, "Fragment Changed", Toast.LENGTH_SHORT).show()
         val fragmentManager = supportFragmentManager
         val fragmentTransaction = fragmentManager.beginTransaction()
         fragmentTransaction.replace(R.id.frame_layout, fragment)
