@@ -5,7 +5,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="0dp"
     tools:context=".RentLockerActivity">
 
     <!--Toolbar-->
@@ -28,7 +27,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/toolbar"
         android:layout_centerVertical="true"
-        android:layout_marginTop="56dp"
+        android:layout_marginTop="48dp"
         android:orientation="vertical">
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -42,57 +41,26 @@
             android:textSize="22sp">
         </androidx.appcompat.widget.AppCompatTextView>
 
-        <Button
-            android:id="@+id/btnRl30min"
-            style="?attr/materialButtonOutlinedStyle"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="10dp"
-            android:text="30 min" />
-
-        <Button
-            android:id="@+id/btnRl1h"
-            style="?attr/materialButtonOutlinedStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="10dp"
-            android:text="1 hora" />
-
-        <Button
-            android:id="@+id/btnRl2h"
-            style="?attr/materialButtonOutlinedStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="10dp"
-            android:text="2 horas" />
-
-        <Button
-            android:id="@+id/btnRl3h"
-            style="?attr/materialButtonOutlinedStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="10dp"
-            android:text="3 horas" />
-
-        <Button
-            android:id="@+id/btnRlPlus5h"
-            style="?attr/materialButtonOutlinedStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="10dp"
-            android:text="+de 5 horas" />
+            android:layout_marginTop="48dp">
+            <TextView
+                android:id="@+id/tvTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Selecione o tempo"
+                android:textSize="30sp"
+                style="@style/Widget.AppCompat.Light.AutoCompleteTextView"/>
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_gravity="center"
-            android:layout_marginTop="30dp">
+            android:layout_marginTop="70dp">
             <TextView
                 style="@style/Widget.MaterialComponents.TextView"
                 android:layout_width="wrap_content"
@@ -102,29 +70,49 @@
                 android:textSize="22sp"/>
             <TextView
                 style="@style/Widget.MaterialComponents.TextView"
+                android:id="@+id/tvRlPriceH"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginStart="10dp"
-                android:textColor="#4CAF50"
+                android:textColor="#007500"
                 android:text="price here:"
-                android:textSize="18dp"/>
+                android:textSize="22sp"/>
 
         </LinearLayout>
 
     </LinearLayout>
 
+<LinearLayout
+
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:layout_marginTop="20dp"
+    android:layout_marginBottom="20dp"
+    android:layout_alignParentBottom="true">
+
     <Button
         android:id="@+id/btnNext"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
         android:text="Próximo"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="10dp"
-        android:textSize="18dp"
+        android:textSize="18sp"
         android:textAlignment="center"
-        app:backgroundTint="#4CAF50"
-        android:layout_centerHorizontal="true"/>
+        app:backgroundTint="#007500">
+    </Button>
+
+    <Button
+        android:id="@+id/btnCancel"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:text="Cancelar"
+        android:textSize="18sp"
+        android:backgroundTint="@color/danger">
+    </Button>
+
+</LinearLayout>
 
 </RelativeLayout>
