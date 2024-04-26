@@ -1,31 +1,36 @@
 package com.example.pi3_es_2024_time19
 
 import android.content.Context
-import android.content.DialogInterface.OnClickListener
 import android.content.Intent
-import android.location.GnssAntennaInfo.Listener
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import android.view.View
 import android.widget.TextView
 import android.widget.Toast
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.appcompat.app.AlertDialog
+import com.google.firebase.firestore.FirebaseFirestore
 import com.example.pi3_es_2024_time19.databinding.ActivityRentLockerBinding
+import com.google.firebase.firestore.CollectionReference
+
 
 class RentLockerActivity : AppCompatActivity() {
 
+    private lateinit var rlTextView: TextView
     private lateinit var binding: ActivityRentLockerBinding
+    private lateinit var collectionRef:CollectionReference
+    private  val firestore by lazy{
+        FirebaseFirestore.getInstance()
+    }
 
+    
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        collectionRef = firestore.collection("precos_hora")
 
         binding = ActivityRentLockerBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
+        rlTextView = binding.tvTime
 
         //Text View com selecionador de tempo
         binding.tvTime.setOnClickListener {
@@ -45,15 +50,52 @@ class RentLockerActivity : AppCompatActivity() {
     }
 
 
+
+    private fun loadPriceFromFirestore(selectedTime: String) {
+        val field = when(selectedTime) {
+            "30 minutos" -> "30 minutos"
+            "1 hora" -> "1 hora"
+            "2 horas" -> "2 horas"
+            "3 horas" -> "3 horas"
+            "+4 horas" -> "+4 horas"
+            else -> ""
+        }
+        if (field.isNotEmpty()) {
+            collectionRef.document("wb61LNO5gKebnBcNVICC").get()
+                .addOnSuccessListener { documentSnapshot ->
+                    if (documentSnapshot.exists()) {
+                        val price = documentSnapshot.getDouble(field)
+                        if (price != null) {
+                            // Se encontrar o preço, atualiza o TextView tvRlPriceH
+                            binding.tvRlPriceH.text = "R$ ${String.format("%.2f", price)}"
+                        } else {
+                            Toast.makeText(applicationContext, "Preço não encontrado para este tempo.", Toast.LENGTH_SHORT).show()
+                        }
+                    } else {
+                        Toast.makeText(applicationContext, "Documento não encontrado.", Toast.LENGTH_SHORT).show()
+                    }
+                }
+                .addOnFailureListener {
+                    Toast.makeText(applicationContext, "Erro ao carregar preço.", Toast.LENGTH_SHORT).show()
+                }
+        } else {
+            Toast.makeText(applicationContext, "Tempo selecionado não reconhecido.", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+
     //Função para escolher o tempo de locação
     private fun pickerAlertDialogTime(textView : TextView){
-        val timePickerOptions = arrayOf("30 minutos", "1 hora ", "2 horas ", "3 horas ","+4 horas")
+        val timePickerOptions = arrayOf("30 minutos", "1 hora", "2 horas", "3 horas","+4 horas")
 
         val builder = AlertDialog.Builder(this)
         builder.setTitle("Selecione a quantidade horas para a locação")
             .setItems(timePickerOptions){ dialog, which ->
                 val timeOption = timePickerOptions[which]
                 textView.text = timeOption
+
+                loadPriceFromFirestore(timeOption)
+
                 dialog.dismiss()
             }
         val dialog = builder.create()

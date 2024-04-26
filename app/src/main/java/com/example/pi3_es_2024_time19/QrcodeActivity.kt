@@ -40,12 +40,11 @@ class QrcodeActivity : AppCompatActivity() {
         val builder: AlertDialog.Builder = AlertDialog.Builder(context)
         builder
             .setTitle("Sucesso")
-            .setMessage("Armário (lockerID here...) alugado com successo!")
+            .setMessage("Armário alugado com successo!")
             .setNeutralButton("Fechar"){ _ , _ ->
                 onNeutralButtonClick()
             }
         val dialog: AlertDialog = builder.create()
         dialog.show()
     }
-
 }
