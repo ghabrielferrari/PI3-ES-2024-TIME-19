@@ -89,4 +89,9 @@ class LoginActivity : AppCompatActivity() {
     private fun setupBinding() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
     }
+
+    private fun forgotPasswordClicked() {
+        val intent = Intent(this, RecuperarSenhaActivity::class.java)
+        startActivity(intent)
+    }
 }
