@@ -16,7 +16,7 @@
             android:name=".QrcodeActivity"
             android:exported="false" />
         <activity
-            android:name=".RegisterCardActivity"
+            android:name=".activities.RegisterCardActivity"
             android:exported="false" />
         <meta-data
             android:name="com.google.android.geo.API_KEY"

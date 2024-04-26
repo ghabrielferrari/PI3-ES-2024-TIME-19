@@ -1,9 +1,10 @@
 package com.example.pi3_es_2024_time19.utils
 
 import android.app.Activity
-import android.view.View
+import android.content.Context
+import android.content.DialogInterface
 import android.widget.Toast
-import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 fun Activity.showToast(message: String){
     Toast.makeText(
@@ -11,6 +12,20 @@ fun Activity.showToast(message: String){
         message,
         Toast.LENGTH_SHORT
     ).show()
+}
+
+private fun showDialog(context: Context,
+                       title: String,
+                       message: String,
+                       positiveBtnText: String,
+                       negativeBtnText: String
+) {
+    MaterialAlertDialogBuilder(context)
+        .setTitle(title)
+        .setMessage(message)
+        .setPositiveButton(positiveBtnText) { _, _ -> }
+        .setNegativeButton(negativeBtnText) { dialogInterface: DialogInterface, i: Int -> }
+        .show()
 }
 
 /*
