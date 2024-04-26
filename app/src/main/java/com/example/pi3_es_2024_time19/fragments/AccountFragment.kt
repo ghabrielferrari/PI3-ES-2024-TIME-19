@@ -44,6 +44,13 @@ class AccountFragment : Fragment() {
         // Inflate the layout for this fragment
         binding = FragmentAccountBinding.inflate(layoutInflater, container, false)
 
+        binding.btnVerifyEmail.setOnClickListener {
+            user.sendEmailVerification()
+                .addOnSuccessListener {
+                    Toast.makeText(context, "Email Enviado", Toast.LENGTH_SHORT).show()
+                }
+        }
+
         binding.btnLogout.setOnClickListener {
             Toast.makeText(context, "User Logged Out", Toast.LENGTH_SHORT).show()
             auth.signOut()
@@ -87,8 +94,14 @@ class AccountFragment : Fragment() {
     }
 
     private fun bindUserDataToView() {
-        binding.helloName.setText("Hello, Name")
-        binding.tvEmail.setText("${user.email}")
+        binding.helloName.setText("Hello, ${user.email.toString().split('@')[0].capitalize()}")
+        if (user.isEmailVerified) {
+            binding.tvEmail.setText("${user.email} (Verificado)")
+            binding.btnVerifyEmail.visibility = View.INVISIBLE
+        } else {
+            binding.tvEmail.setText("${user.email} (Não Verificado)")
+            binding.btnVerifyEmail.visibility = View.VISIBLE
+        }
     }
 
 }
