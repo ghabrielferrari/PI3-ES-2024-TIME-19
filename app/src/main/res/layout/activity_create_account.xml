@@ -23,14 +23,17 @@
         android:id="@+id/tlNome"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="0dp"
         android:hint="nome completo"
+        app:errorEnabled="true"
+        app:errorTextColor="@color/danger"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/tvCompleteName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:inputType="text"
             />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -39,14 +42,16 @@
         android:id="@+id/tlEmail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
         android:hint="Email"
+        app:errorEnabled="true"
+        app:errorTextColor="@color/danger"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/tvEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:inputType="text"
             />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -55,8 +60,10 @@
         android:id="@+id/tlCpf"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="0dp"
         android:hint="CPF"
+        app:errorEnabled="true"
+        app:errorTextColor="@color/danger"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/tvCpf"
@@ -70,7 +77,7 @@
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="0dp"
         android:orientation="horizontal"
         android:gravity="start">
         <com.google.android.material.textview.MaterialTextView
@@ -96,21 +103,25 @@
         android:layout_marginTop="15dp"
         app:helperTextEnabled="true"
         android:hint="Número de Telefone"
+        app:errorEnabled="true"
+        app:errorTextColor="@color/danger"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/tvPhoneNum"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="phone" />
+            android:inputType="text" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tlPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="0dp"
         app:endIconMode="password_toggle"
         android:hint="Senha"
+        app:errorEnabled="true"
+        app:errorTextColor="@color/danger"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/tvPassword"
@@ -124,9 +135,11 @@
         android:id="@+id/tlConfirmPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="0dp"
         app:endIconMode="password_toggle"
         android:hint="Confirmar Senha"
+        app:errorEnabled="true"
+        app:errorTextColor="@color/danger"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/tvConfirmPassword"
@@ -139,7 +152,7 @@
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="35dp"
+        android:layout_marginTop="30dp"
         android:orientation="horizontal"
         android:layout_gravity="center_horizontal"
         >
