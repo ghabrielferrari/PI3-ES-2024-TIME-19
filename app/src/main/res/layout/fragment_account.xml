@@ -27,13 +27,13 @@
         </androidx.cardview.widget.CardView>
 
         <TextView
+            android:id="@+id/helloName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:layout_marginStart="24dp"
             android:layout_marginEnd="24dp"
             android:textAppearance="?attr/textAppearanceHeadline6"
-            android:id="@+id/helloName"
             android:text="Hello, Name" />
 
         <TextView
@@ -53,6 +53,13 @@
             android:layout_height="match_parent"
             android:layout_margin="20dp"
             app:cardCornerRadius="5dp">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnVerifyEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="Verificar email" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnLogout"

@@ -11,6 +11,7 @@ import androidx.core.view.WindowInsetsCompat
 import com.example.pi3_es_2024_time19.databinding.ActivityAppEntryBinding
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.auth
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
@@ -20,6 +21,7 @@ class AppEntryActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityAppEntryBinding
     private lateinit var auth: FirebaseAuth
+    private lateinit var user: FirebaseUser
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityAppEntryBinding.inflate((layoutInflater))
@@ -31,10 +33,10 @@ class AppEntryActivity : AppCompatActivity() {
 
     private fun verifyLogin() {
         val handler = Handler()
+        setLogText("Conectando...")
 
         if (auth.currentUser != null) {
             handler.postDelayed({
-                Toast.makeText(this, "${auth.currentUser}", Toast.LENGTH_LONG).show()
                 goToMainActivity()
             }, 2000)
 
@@ -55,5 +57,9 @@ class AppEntryActivity : AppCompatActivity() {
 
     private fun initFirebaseAuth() {
         auth = Firebase.auth
+    }
+
+    private fun setLogText(text: String) {
+        binding.logText.setText(text)
     }
 }

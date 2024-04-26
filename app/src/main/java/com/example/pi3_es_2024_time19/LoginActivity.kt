@@ -31,12 +31,14 @@ class LoginActivity : AppCompatActivity() {
             val passwordText = binding.tvPassword.text
 
             if (emailText?.isEmpty() == true) {
-                showSnack("You Forgot Your Email Address")
+                binding.tvEmail.error = "Digite seu email"
 
-            } else if (passwordText?.isEmpty() == true) {
-                showSnack("You Forgot Your Password")
+            }
+            if (passwordText?.isEmpty() == true) {
+                binding.tvPassword.error = "Digite sua senha"
 
-            } else {
+            }
+            if (emailText?.isNotEmpty() == true && passwordText?.isNotEmpty() == true) {
                 val email = binding.tvEmail.text.toString()
                 val password = binding.tvPassword.text.toString()
                 signIn(email, password)

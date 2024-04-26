@@ -6,8 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="136dp"
     android:layout_margin="8dp"
-    app:cardCornerRadius="5dp"
-    android:outlineAmbientShadowColor="@color/black">
+    app:cardCornerRadius="5dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -16,18 +15,18 @@
 
         <!-- Media -->
         <LinearLayout
+            android:id="@+id/layoutLocksLogo"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:background="@color/main_blue">
             <ImageView
-                android:layout_width="130dp"
+                android:layout_width="110dp"
                 android:layout_height="match_parent"
                 app:srcCompat="@drawable/ic_lockers_128"
                 android:scaleType="center"
                 android:scaleX="0.5"
                 android:scaleY="0.5"
-                android:background="@color/main_blue"
-                android:contentDescription="img description"
+                android:contentDescription="locks icons"
                 />
         </LinearLayout>
 
@@ -76,20 +75,20 @@
                     android:orientation="horizontal"
                     android:gravity="center_vertical">
                     <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btnAction1"
+                        android:id="@+id/btnDanger"
                         style="?attr/borderlessButtonStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="10dp"
-                        android:text="info" />
+                        android:text="danger"
+                        android:textColor="@color/danger" />
 
                     <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btnAction2"
+                        android:id="@+id/btnAction"
                         style="?attr/borderlessButtonStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="cancelar"
-                        android:textColor="@color/danger" />
+                        android:text="action" />
                 </LinearLayout>
 
             </LinearLayout>
