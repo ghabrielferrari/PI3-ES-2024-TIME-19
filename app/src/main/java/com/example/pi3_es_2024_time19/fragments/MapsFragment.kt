@@ -37,11 +37,19 @@ class MapsFragment : Fragment(), GoogleMap.OnMarkerClickListener {
         addExistingLocations()
 
         val campinas = LatLng(-22.9051, -47.0613)
-        val marker = googleMap.addMarker(MarkerOptions().position(campinas).title("Locker in Campinas"))
+        val pucc = LatLng(-22.83389728110038, -47.05269190905707)
+
+        val marker = googleMap.addMarker(MarkerOptions().position(campinas).title("Locker in Campinas - Perto da catedral"))
         googleMap.moveCamera(CameraUpdateFactory.newLatLng(campinas))
 
         onMarkerClick(marker as Marker)
+
+        val marker2 = googleMap.addMarker(MarkerOptions().position(pucc).title("Locker in Pontíficia Universidade Católica - No prédio do H15"))
+        googleMap.moveCamera(CameraUpdateFactory.newLatLng(pucc))
+
+        onMarkerClick(marker2 as Marker)
     }
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
