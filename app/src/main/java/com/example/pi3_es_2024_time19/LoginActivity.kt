@@ -6,6 +6,7 @@ import android.inputmethodservice.Keyboard
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.inputmethod.InputMethodManager
+import android.widget.Button
 import android.widget.Toast
 import com.example.pi3_es_2024_time19.databinding.ActivityLoginBinding
 import com.google.android.material.snackbar.Snackbar
@@ -19,12 +20,20 @@ class LoginActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityLoginBinding
     private lateinit var auth: FirebaseAuth
+    private lateinit var btnRecoveryPassword: Button
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setupBinding()
         setContentView(binding.root)
 
         initFirebaseAuth()
+
+        btnRecoveryPassword = binding.btnRecoverPassword
+        btnRecoveryPassword.setOnClickListener {
+            startActivity(
+                Intent(this, RecoveryPasswordActivity::class.java)
+            )
+        }
 
         binding.btnLogin.setOnClickListener {
             val emailText = binding.tvEmail.text

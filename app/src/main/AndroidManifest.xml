@@ -13,14 +13,19 @@
         android:theme="@style/lockers_theme"
         tools:targetApi="31">
         <activity
+            android:name=".RecoveryPasswordActivity"
+            android:exported="false" />
+        <activity
             android:name=".QrcodeActivity"
             android:exported="false" />
         <activity
             android:name=".activities.RegisterCardActivity"
             android:exported="false" />
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyDce9FvQ__7-mTr-O7R6FfP-ibEDQmZDV0" />
+
         <activity
             android:name=".RentLockerActivity"
             android:exported="false" />

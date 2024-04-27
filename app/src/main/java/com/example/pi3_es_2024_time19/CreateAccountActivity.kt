@@ -1,29 +1,18 @@
 package com.example.pi3_es_2024_time19
 
-import android.app.Activity
 import android.app.DatePickerDialog
 import android.content.Intent
 import android.os.Bundle
-import android.renderscript.ScriptGroup.Binding
-import android.text.Editable
-import android.widget.Button
 import android.widget.DatePicker
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.text.set
 import com.example.pi3_es_2024_time19.databinding.ActivityCreateAccountBinding
-import com.example.pi3_es_2024_time19.databinding.ActivityMainBinding
-import com.example.pi3_es_2024_time19.models.User
-import com.google.firebase.Firebase
+import com.example.pi3_es_2024_time19.models.UserData
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.firestore.core.FirestoreClient
-import com.google.firebase.firestore.firestore
+import com.google.firebase.firestore.FirebaseFirestore
 import java.util.Calendar
-import com.example.pi3_es_2024_time19.models.UserData
-import com.example.pi3_es_2024_time19.utils.showToast
-import com.google.firebase.auth.auth
 
 class CreateAccountActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
     private lateinit var binding: ActivityCreateAccountBinding
@@ -41,7 +30,7 @@ class CreateAccountActivity : AppCompatActivity(), DatePickerDialog.OnDateSetLis
     private lateinit var nome_completo: String
 
     private lateinit var auth: FirebaseAuth
-    private var db = Firebase.firestore
+    private lateinit var db: FirebaseFirestore
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,7 +55,6 @@ class CreateAccountActivity : AppCompatActivity(), DatePickerDialog.OnDateSetLis
                 showToast("SignUp")
                 signUp()
             }
-
         }
     }
 
@@ -76,11 +64,11 @@ class CreateAccountActivity : AppCompatActivity(), DatePickerDialog.OnDateSetLis
 
     private fun initFirebaseAuth() {
         // Initialize Firebase Auth
-        auth = Firebase.auth
+        auth = FirebaseAuth.getInstance()
     }
 
     private fun initFirebaseFirestore() {
-        db = Firebase.firestore
+        db = FirebaseFirestore.getInstance()
     }
 
     private fun getDateCalendar() {
@@ -104,32 +92,22 @@ class CreateAccountActivity : AppCompatActivity(), DatePickerDialog.OnDateSetLis
         dateTextView.text = "$savedDay/$savedMonth/$savedYear"
     }
 
-    private fun signIn(email: String,password: String) {
-        auth.signInWithEmailAndPassword(
-            email,
-            password
-        ).addOnCompleteListener(this) { task ->
-            if (task.isSuccessful) {
-                Toast.makeText(this, "User Logged In :)", Toast.LENGTH_SHORT).show()
-                openMainActivity()
-            } else {
-                Toast.makeText(this, "(!) Login Failed - Check Connection", Toast.LENGTH_LONG).show()
-            }
-        }
-    }
-
     private fun signUp() {
         auth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
                     // Sign up success, update UI with the signed-in user's information
-                    val user = auth.currentUser as FirebaseUser
-                    saveUserDataToFirestore(user)
-                    signIn(email, password)
-
+                    val user = auth.currentUser
+                    if (user != null) {
+                        saveUserDataToFirestore(user)
+                        showToast("Usuário criado com sucesso")
+                        openMainActivity()
+                    } else {
+                        showToast("Usuário não encontrado após criar a conta")
+                    }
                 } else {
                     // If sign up fails, display a message to the user.
-                    Toast.makeText(this, "Sign up failed.", Toast.LENGTH_SHORT).show()
+                    showToast("Falha ao criar a conta: ${task.exception?.message}")
                 }
             }
     }
@@ -143,23 +121,26 @@ class CreateAccountActivity : AppCompatActivity(), DatePickerDialog.OnDateSetLis
         val cpfText = binding.tvCpf.text
         val telefoneText = binding.tvPhoneNum.text
 
-        if (nomeCompletoText?.isEmpty() == true) {
+        if (nomeCompletoText.isNullOrEmpty()) {
             binding.tvCompleteName.error = "Digite seu Nome Completo"
             isValid = false
         }
-        if (emailText?.isEmpty() == true) {
+        if (emailText.isNullOrEmpty()) {
             binding.tvEmail.error = "Digite seu email"
             isValid = false
         }
         // Try to transform String to Long
         try {
-            cpf = cpfText.toString().toLong()
-        } catch (e: NumberFormatException) {}
-        if (cpfText?.isEmpty() == true || cpf < 10000000000) {
+            cpf = cpfText?.toString()?.toLong() ?: 0
+        } catch (e: NumberFormatException) {
+            showToast("CPF inválido")
+            isValid = false
+        }
+        if (cpfText.isNullOrEmpty() || cpf < 10000000000) {
             binding.tvCpf.error = "Digite seu CPF, deve ter 11 dígitos"
             isValid = false
         }
-        if (telefoneText?.isEmpty() == true) {
+        if (telefoneText.isNullOrEmpty()) {
             binding.tvPhoneNum.error = "Digite seu telefone"
             isValid = false
         }
@@ -167,11 +148,11 @@ class CreateAccountActivity : AppCompatActivity(), DatePickerDialog.OnDateSetLis
             binding.tvDateText.setTextColor(getColor(R.color.danger))
             isValid = false
         }
-        if (passwordText?.isEmpty() == true) {
-            binding.tvPassword.error = "Digite umma senha"
+        if (passwordText.isNullOrEmpty()) {
+            binding.tvPassword.error = "Digite uma senha"
             isValid = false
         }
-        if (confirmationPasswordText?.isEmpty() == true) {
+        if (confirmationPasswordText.isNullOrEmpty()) {
             binding.tvConfirmPassword.error = "Confirme sua senha"
             isValid = false
         }
@@ -186,21 +167,22 @@ class CreateAccountActivity : AppCompatActivity(), DatePickerDialog.OnDateSetLis
         return isValid
     }
 
-    private fun saveUserDataToFirestore(user: FirebaseUser) {
+    private fun saveUserDataToFirestore(user: FirebaseUser?) {
         val user_data = UserData(
-            uid = user.uid,
+            uid = user?.uid ?: "",
             nome_completo = nome_completo,
             cpf = cpf,
-            data_nascimento = "$year-$month-$day",
-            telefone = telefone
+            data_nascimento = "$savedYear-$savedMonth-$savedDay",
+            telefone = telefone,
+            email = email // Adicionando o campo de e-mail
         )
         db.collection("user_data")
             .add(user_data)
             .addOnSuccessListener {
-                showToast("Usuário criado com sucessso")
+                showToast("Dados do usuário salvos no Firestore")
             }
             .addOnFailureListener {
-                showToast("Não foi possível criar sua conta :(, tente novamente ou verifique sua internet")
+                showToast("Não foi possível salvar os dados do usuário no Firestore")
             }
     }
 
@@ -209,4 +191,7 @@ class CreateAccountActivity : AppCompatActivity(), DatePickerDialog.OnDateSetLis
         startActivity(intent)
     }
 
+    private fun showToast(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    }
 }
