@@ -11,7 +11,6 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.pi3_es_2024_time19.RentLockerActivity
 import com.example.pi3_es_2024_time19.activities.RegisterCardActivity
 import com.example.pi3_es_2024_time19.adapters.CardAdapter
 import com.example.pi3_es_2024_time19.databinding.FragmentPaymentBinding
@@ -68,9 +67,12 @@ class PaymentFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.btnAddNewCard.setOnClickListener {
-            val intent = Intent(context, RegisterCardActivity::class.java)
-            startActivity(intent)
+        val btnAddNewCard = binding.btnAddNewCard
+        btnAddNewCard.setOnClickListener {
+            startActivityForResult(
+                Intent(requireContext(), RegisterCardActivity::class.java),
+                REQUEST_CODE_ADD_CARD
+            )
         }
     }
 
@@ -111,7 +113,6 @@ class PaymentFragment : Fragment() {
         // Gerar um ID único para o cartão
         val cardId = collectionRef.document().id
         card.id = cardId
-        Toast.makeText(context, "Card=$card", Toast.LENGTH_SHORT).show()
 
         // Adicionar ao Firestore
         collectionRef.document(cardId).set(card)

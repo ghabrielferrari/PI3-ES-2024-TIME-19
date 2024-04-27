@@ -7,13 +7,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="20dp"
+    android:layout_margin="10dp"
     tools:context=".activities.RegisterCardActivity">
 
     <androidx.appcompat.widget.AppCompatTextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Adicionar Cartão de Crédito"
+        android:layout_marginTop="20dp"
         android:textSize="31sp"
         />
 
@@ -21,7 +22,7 @@
         android:id="@+id/textInputNumberCard"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="90dp"
         android:hint="Número Cartão"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         >
@@ -142,14 +143,13 @@
         android:layout_marginStart="8dp"
         />
 
-    <com.google.android.material.button.MaterialButton
+    <Button
         android:id="@+id/btnAddCard"
         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="60dp"
         android:text="ADICIONAR CARTÃO"
-        android:backgroundTint="#4CAF50"
-        android:textColor="@color/white"/>
+        android:textColor="@color/green" />
 
 </androidx.appcompat.widget.LinearLayoutCompat>

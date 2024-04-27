@@ -12,4 +12,5 @@
     <color name="danger">#B00020</color>
     <color name="gray">#aaaaaa</color>
     <color name="warning">#e3c100</color>
+    <color name="green">#007733</color>
 </resources>

@@ -4,22 +4,21 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.pi3_es_2024_time19.databinding.ActivityRegisterCardBinding
 import com.example.pi3_es_2024_time19.models.Card
 import com.example.pi3_es_2024_time19.models.User
 import com.example.pi3_es_2024_time19.utils.showToast
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.auth.auth
 import com.google.firebase.firestore.FirebaseFirestore
 
 class RegisterCardActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityRegisterCardBinding
+    private val binding by lazy {
+        ActivityRegisterCardBinding.inflate(layoutInflater)
+    }
 
     private lateinit var numberCard: String
     private lateinit var fullName: String
@@ -27,10 +26,11 @@ class RegisterCardActivity : AppCompatActivity() {
     private lateinit var expirationDate: String
     private lateinit var CCV: String
 
-    private lateinit var firebaseAuth: FirebaseAuth
+    private val firebaseAuth by lazy {
+        FirebaseAuth.getInstance()
+    }
 
     private lateinit var user: User
-    private lateinit var intent: Intent
 
     companion object {
         const val EXTRA_CARD = "extra_card"
@@ -38,10 +38,7 @@ class RegisterCardActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityRegisterCardBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        firebaseAuth = Firebase.auth
 
         val currentUser = firebaseAuth.currentUser
         initializeClickEvents(currentUser)
@@ -63,6 +60,7 @@ class RegisterCardActivity : AppCompatActivity() {
                 }
             }
         } ?: run {
+            Log.i("RegisterCardActivity", "Usuário atual é nulo.")
         }
     }
 
@@ -163,6 +161,7 @@ class RegisterCardActivity : AppCompatActivity() {
             .setTitle("Cartão Adicionado")
             .setMessage("Sucesso!")
             .setPositiveButton("OK") { _, _ ->
+                val intent = Intent()
                 intent.putExtra(EXTRA_CARD, card)
                 setResult(Activity.RESULT_OK, intent)
                 finish()
@@ -171,7 +170,7 @@ class RegisterCardActivity : AppCompatActivity() {
     }
 
     private fun sendCardToPaymentFragment(card: Card) {
-        intent = Intent()
+        val intent = Intent()
         intent.putExtra(EXTRA_CARD, card)
         setResult(Activity.RESULT_OK, intent)
     }
