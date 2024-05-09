@@ -1,5 +1,5 @@
 # Arquivo APK está no repositório '/app'
-## Git Workflow é separado em branches indeividuais para cada indivíduo:
+## Git Workflow é separado em branches individuais para cada indivíduo:
 * master
 * breno-updates
 * rafael-updates
