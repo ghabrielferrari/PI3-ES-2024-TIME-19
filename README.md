@@ -5,3 +5,5 @@
 * rafael-updates
 * gabriel-updates
 * guilherme-updates
+
+### Todas as branches são eventualmentes mergidas na master
