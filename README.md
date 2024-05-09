@@ -1,1 +1,1 @@
-# Arquivo APK está na raiz o repositório
+# Arquivo APK está no repositório '/app'
