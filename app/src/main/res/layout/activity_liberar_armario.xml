@@ -1,0 +1,60 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- Barra superior -->
+    <LinearLayout
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:background="?attr/colorPrimary">
+
+
+        <!-- Texto "Liberar Locação do Armário" -->
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Liberar Locação do Armário"
+            android:textColor="@android:color/white"
+            android:textSize="24sp"
+            android:layout_marginStart="64dp"/>
+
+    </LinearLayout>
+
+    <!-- QR Code -->
+    <ImageView
+        android:id="@+id/ivQRCode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:src="@drawable/qrcode"
+        android:contentDescription="@string/qrcode"/>
+
+    <!-- Mensagem para escanear o código -->
+    <TextView
+        android:id="@+id/tvScanMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Escaneie o QR code"
+        android:textColor="@android:color/black"
+        android:textSize="32sp"
+        android:layout_below="@id/ivQRCode"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"/>
+
+    <!-- Botão "Próximo" -->
+    <Button
+        android:id="@+id/btnNext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Próximo"
+        android:textColor="@android:color/white"
+        android:backgroundTint="@color/green"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="16dp"/>
+
+</RelativeLayout>
