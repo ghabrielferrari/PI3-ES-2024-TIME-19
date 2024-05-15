@@ -1,3 +1,6 @@
+val DependencyHandler.implementation: Unit
+    get() {}
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -29,6 +32,8 @@ android {
             )
         }
     }
+
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
@@ -43,6 +48,7 @@ android {
 
 dependencies {
 
+
     //Firebase
     // Import the BoM for the Firebase platform
     implementation(platform("com.google.firebase:firebase-bom:32.8.0"))
@@ -51,6 +57,8 @@ dependencies {
 
     // Also add the dependency for the Google Play services library and specify its version
     implementation("com.google.android.gms:play-services-auth:21.0.0")
+
+
 
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
