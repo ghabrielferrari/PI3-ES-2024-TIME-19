@@ -1,0 +1,73 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <LinearLayout
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:background="?attr/colorPrimary">
+
+
+        <!-- Texto "Liberar Locação do Armário" -->
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Liberar Locação do Armário"
+            android:textColor="@android:color/white"
+            android:textSize="24sp"
+            android:layout_marginStart="64dp"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvPessoas"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Quantas pessoas alugarão esse armário?"
+        android:textSize="24sp"
+        android:textColor="@android:color/black"
+        android:layout_below="@id/btn1pessoa"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:layout_marginTop="-128dp"/>
+    />
+
+    <!-- Botão "1 Pessoa" -->
+    <Button
+        android:id="@+id/btn1pessoa"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="1 Pessoa"
+        android:textColor="@android:color/white"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"/>
+
+    <!-- Botão "2 Pessoas" -->
+    <Button
+        android:id="@+id/btn2pessoas"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="2 Pessoas"
+        android:textColor="@android:color/white"
+        android:layout_below="@id/btn1pessoa"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"/>
+
+    <!-- Botão "Próximo" -->
+    <Button
+        android:id="@+id/btnProximo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Próximo"
+        android:textColor="@android:color/white"
+        android:backgroundTint="@color/green"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="16dp"/>
+
+</RelativeLayout>
