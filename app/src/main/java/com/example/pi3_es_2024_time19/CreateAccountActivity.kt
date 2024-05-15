@@ -174,7 +174,7 @@ class CreateAccountActivity : AppCompatActivity(), DatePickerDialog.OnDateSetLis
             cpf = cpf,
             data_nascimento = "$savedYear-$savedMonth-$savedDay",
             telefone = telefone,
-            email = email // Adicionando o campo de e-mail
+            isManager = false
         )
         db.collection("user_data")
             .add(user_data)

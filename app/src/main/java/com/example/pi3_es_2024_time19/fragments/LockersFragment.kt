@@ -7,8 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView.LayoutManager
-import com.example.pi3_es_2024_time19.AdapterArmarioListItem
+import com.example.pi3_es_2024_time19.adapters.AdapterArmarioListItem
 import com.example.pi3_es_2024_time19.RentLockerActivity
 import com.example.pi3_es_2024_time19.databinding.FragmentLockersBinding
 import com.example.pi3_es_2024_time19.models.Locker

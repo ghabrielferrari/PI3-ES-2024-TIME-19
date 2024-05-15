@@ -18,6 +18,7 @@ import com.google.firebase.auth.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.firestore
 import com.example.pi3_es_2024_time19.utils.showToast
+import com.google.firebase.firestore.toObject
 
 class AccountFragment : Fragment() {
 
@@ -26,7 +27,8 @@ class AccountFragment : Fragment() {
     private lateinit var db: FirebaseFirestore
 
     private lateinit var user: FirebaseUser
-    private lateinit var user_data: UserData
+    private var user_data: UserData = UserData()
+    private var isManager: Boolean = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -58,7 +60,6 @@ class AccountFragment : Fragment() {
         }
 
         getUserData()
-        bindUserDataToView()
 
         return binding.root
     }
@@ -80,12 +81,19 @@ class AccountFragment : Fragment() {
 
     private fun getUserData() {
         val query = db.collection("user_data")
-            .whereEqualTo("uid", user.uid)
+            .whereEqualTo("uid", "${user.uid}")
             .get()
-            .addOnCompleteListener { documents ->
-//                for (document in documents) {
-//                }
-                Toast.makeText(context, "$documents", Toast.LENGTH_SHORT).show()
+            .addOnSuccessListener{ documents ->
+                if (documents.isEmpty) {
+                    Log.d("QUERY FAILED", "Size of query is zero")
+                } else {
+                    for (doc in documents) {
+                        user_data = doc.toObject(UserData::class.java)
+                        isManager = doc.get("isManager") as Boolean
+                        Log.d("USER_DATA", "$user_data")
+                    }
+                    bindUserDataToView()
+                }
             }
             .addOnFailureListener {
                 Toast.makeText(context, "Erro ocorreu, verifique conexão e tente novamente!", Toast.LENGTH_SHORT).show()
@@ -94,13 +102,21 @@ class AccountFragment : Fragment() {
     }
 
     private fun bindUserDataToView() {
-        binding.helloName.setText("Hello, ${user.email.toString().split('@')[0].capitalize()}")
+        binding.helloName.setText("Olá, ${user_data.nome_completo}")
+
         if (user.isEmailVerified) {
             binding.tvEmail.setText("${user.email} (Verificado)")
             binding.btnVerifyEmail.visibility = View.INVISIBLE
+
         } else {
             binding.tvEmail.setText("${user.email} (Não Verificado)")
             binding.btnVerifyEmail.visibility = View.VISIBLE
+        }
+
+        if (isManager) {
+            binding.tvGerenteStatus.visibility = View.VISIBLE
+        } else {
+            binding.tvGerenteStatus.visibility = View.INVISIBLE
         }
     }
 
