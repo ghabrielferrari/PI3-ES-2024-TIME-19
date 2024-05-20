@@ -1,5 +1,6 @@
 package com.example.pi3_es_2024_time19.fragments
 
+import android.media.MediaPlayer
 import androidx.fragment.app.Fragment
 
 import android.os.Bundle
@@ -13,13 +14,15 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 
 class MapsFragment : Fragment(), GoogleMap.OnMarkerClickListener {
 
-    private  lateinit var googleMap: GoogleMap
+    private lateinit var googleMap: GoogleMap
+    private lateinit var mediaPlayer: MediaPlayer
 
     private val callback = OnMapReadyCallback { googleMap ->
         /**
@@ -35,19 +38,6 @@ class MapsFragment : Fragment(), GoogleMap.OnMarkerClickListener {
         this.googleMap = googleMap
 
         addExistingLocations()
-
-        val campinas = LatLng(-22.9051, -47.0613)
-        val pucc = LatLng(-22.83389728110038, -47.05269190905707)
-
-        val marker = googleMap.addMarker(MarkerOptions().position(campinas).title("Locker in Campinas - Perto da catedral"))
-        googleMap.moveCamera(CameraUpdateFactory.newLatLng(campinas))
-
-        onMarkerClick(marker as Marker)
-
-        val marker2 = googleMap.addMarker(MarkerOptions().position(pucc).title("Locker in Pontíficia Universidade Católica - No prédio do H15"))
-        googleMap.moveCamera(CameraUpdateFactory.newLatLng(pucc))
-
-        onMarkerClick(marker2 as Marker)
     }
 
 
@@ -56,6 +46,7 @@ class MapsFragment : Fragment(), GoogleMap.OnMarkerClickListener {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        playSound(R.raw.mapa)
         return inflater.inflate(R.layout.fragment_maps, container, false)
     }
 
@@ -66,18 +57,48 @@ class MapsFragment : Fragment(), GoogleMap.OnMarkerClickListener {
     }
 
     private fun addExistingLocations() {
-        // Example of adding existing locations
-        val location1 = LatLng(-35.0, 140.0)
-        val location2 = LatLng(-33.5, 160.5)
+        // Localizacoes de armarios
+        val campinas = LatLng(-22.9051, -47.0613)
+        val pucc = LatLng(-22.83389728110038, -47.05269190905707)
 
-        // Add markers for existing locations
-        //googleMap.addMarker(MarkerOptions().position(location1).title("Location 1"))
-        //googleMap.addMarker(MarkerOptions().position(location2).title("Location 2"))
+        val marker = googleMap.addMarker(MarkerOptions()
+            .position(campinas)
+            .title("Locker in Campinas - Perto da catedral"))
+            ?.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.lock_marker))
+        //googleMap.moveCamera(CameraUpdateFactory.newLatLng(campinas))
+        //onMarkerClick(marker as Marker)
+
+        val marker2 = googleMap.addMarker(MarkerOptions()
+            .position(pucc)
+            .title("Locker in Pontíficia Universidade Católica - No prédio do H15"))
+            ?.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.lock_marker))
+        googleMap.moveCamera(CameraUpdateFactory.newLatLng(pucc))
     }
 
-    override fun onMarkerClick(marker: Marker): Boolean {
-        Toast.makeText(context, "${marker.title}", Toast.LENGTH_SHORT).show()
-        return true
+    override fun onMarkerClick(p0: Marker): Boolean {
+        playSound(R.raw.marker_click_voice)
+        return false
+    }
+
+    private fun playSound(rawFile: Int) {
+        if (!this::mediaPlayer.isInitialized) {
+            mediaPlayer = MediaPlayer.create(context, rawFile)
+        }
+        if (mediaPlayer.isPlaying) {
+            mediaPlayer.pause()
+            mediaPlayer.seekTo(0)
+        } else {
+            mediaPlayer.start()
+        }
+
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        if (this::mediaPlayer.isInitialized) {
+            mediaPlayer.stop()
+            mediaPlayer.release()
+        }
     }
 
 }

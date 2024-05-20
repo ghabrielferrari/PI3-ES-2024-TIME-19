@@ -1,6 +1,7 @@
 package com.example.pi3_es_2024_time19
 
 import android.content.Intent
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.Handler
 import android.widget.Toast
@@ -22,6 +23,7 @@ class AppEntryActivity : AppCompatActivity() {
     private lateinit var binding: ActivityAppEntryBinding
     private lateinit var auth: FirebaseAuth
     private lateinit var user: FirebaseUser
+    private lateinit var mediaPlayer: MediaPlayer
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityAppEntryBinding.inflate((layoutInflater))
@@ -38,6 +40,7 @@ class AppEntryActivity : AppCompatActivity() {
         if (auth.currentUser != null) {
             handler.postDelayed({
                 goToMainActivity()
+                playSound(R.raw.coin_sfx)
             }, 2000)
 
         } else {
@@ -61,5 +64,26 @@ class AppEntryActivity : AppCompatActivity() {
 
     private fun setLogText(text: String) {
         binding.logText.setText(text)
+    }
+
+    private fun playSound(rawFile: Int) {
+        if (!this::mediaPlayer.isInitialized) {
+            mediaPlayer = MediaPlayer.create(this, rawFile)
+        }
+        if (mediaPlayer.isPlaying) {
+            mediaPlayer.pause()
+            mediaPlayer.seekTo(0)
+        } else {
+            mediaPlayer.start()
+        }
+
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        if (this::mediaPlayer.isInitialized) {
+            mediaPlayer.stop()
+            mediaPlayer.release()
+        }
     }
 }
