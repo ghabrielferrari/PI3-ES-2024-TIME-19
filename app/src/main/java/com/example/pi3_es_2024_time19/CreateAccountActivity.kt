@@ -2,7 +2,9 @@ package com.example.pi3_es_2024_time19
 
 import android.app.DatePickerDialog
 import android.content.Intent
+import android.media.MediaCodec
 import android.os.Bundle
+import android.util.Log
 import android.widget.DatePicker
 import android.widget.TextView
 import android.widget.Toast
@@ -12,6 +14,7 @@ import com.example.pi3_es_2024_time19.models.UserData
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
+import java.util.regex.Pattern
 import java.util.Calendar
 
 class CreateAccountActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
@@ -52,7 +55,6 @@ class CreateAccountActivity : AppCompatActivity(), DatePickerDialog.OnDateSetLis
 
         binding.btnCreateAccount.setOnClickListener {
             if (validateFields()) {
-                showToast("SignUp")
                 signUp()
             }
         }
@@ -101,7 +103,6 @@ class CreateAccountActivity : AppCompatActivity(), DatePickerDialog.OnDateSetLis
                     if (user != null) {
                         saveUserDataToFirestore(user)
                         showToast("Usuário criado com sucesso")
-                        openMainActivity()
                     } else {
                         showToast("Usuário não encontrado após criar a conta")
                     }
@@ -129,11 +130,14 @@ class CreateAccountActivity : AppCompatActivity(), DatePickerDialog.OnDateSetLis
             binding.tvEmail.error = "Digite seu email"
             isValid = false
         }
+        if(!isEmailValid(emailText.toString())) {
+            binding.tvEmail.error = "Email está incorreto"
+            isValid = false
+        }
         // Try to transform String to Long
         try {
             cpf = cpfText?.toString()?.toLong() ?: 0
         } catch (e: NumberFormatException) {
-            showToast("CPF inválido")
             isValid = false
         }
         if (cpfText.isNullOrEmpty() || cpf < 10000000000) {
@@ -167,19 +171,27 @@ class CreateAccountActivity : AppCompatActivity(), DatePickerDialog.OnDateSetLis
         return isValid
     }
 
+    private fun isEmailValid(email: String): Boolean {
+        val pattern = Pattern.compile("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}\$")
+        val matcher = pattern.matcher(email)
+        return matcher.matches()
+    }
+
     private fun saveUserDataToFirestore(user: FirebaseUser?) {
         val user_data = UserData(
             uid = user?.uid ?: "",
             nome_completo = nome_completo,
             cpf = cpf,
             data_nascimento = "$savedYear-$savedMonth-$savedDay",
+            email= email,
             telefone = telefone,
-            email = email // Adicionando o campo de e-mail
+            isManager = false
         )
         db.collection("user_data")
             .add(user_data)
             .addOnSuccessListener {
                 showToast("Dados do usuário salvos no Firestore")
+                openMainActivity()
             }
             .addOnFailureListener {
                 showToast("Não foi possível salvar os dados do usuário no Firestore")

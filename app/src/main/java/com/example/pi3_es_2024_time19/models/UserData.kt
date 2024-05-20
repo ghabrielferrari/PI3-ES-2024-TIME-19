@@ -10,5 +10,6 @@ data class UserData(
     val cpf: Long = 0L,
     val data_nascimento: String = "",
     val telefone: String = "",
-    val email: String = ""
+    val email: String = "",
+    val isManager: Boolean = false,
 ) : Parcelable

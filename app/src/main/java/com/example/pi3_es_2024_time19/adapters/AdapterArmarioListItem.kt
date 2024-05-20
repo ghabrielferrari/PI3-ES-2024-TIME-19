@@ -1,6 +1,5 @@
-package com.example.pi3_es_2024_time19
+package com.example.pi3_es_2024_time19.adapters
 
-import android.content.res.ColorStateList
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +8,7 @@ import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.pi3_es_2024_time19.R
 import com.example.pi3_es_2024_time19.models.Locker
 
 class AdapterArmarioListItem(
@@ -19,12 +19,12 @@ class AdapterArmarioListItem(
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): AdapterArmarioListItem.ArmarioViewHolder {
+    ): ArmarioViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.armario_cliente_list_item, parent, false)
         return ArmarioViewHolder(itemView)
     }
 
-    override fun onBindViewHolder(holder: AdapterArmarioListItem.ArmarioViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ArmarioViewHolder, position: Int) {
         val currentListItem = lockers[position]
         holder.tvTitle.text = currentListItem.name
         holder.tvStatus.text = currentListItem.status

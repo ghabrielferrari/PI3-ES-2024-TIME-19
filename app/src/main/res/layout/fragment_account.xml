@@ -16,8 +16,8 @@
         <androidx.cardview.widget.CardView
             android:layout_marginTop="24dp"
             android:layout_marginStart="24dp"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
             app:cardCornerRadius="50dp">
             <ImageView
                 android:scaleType="centerCrop"
@@ -40,12 +40,30 @@
             android:id="@+id/tvEmail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="24dp"
+            android:layout_marginBottom="0dp"
             android:layout_marginStart="24dp"
             android:layout_marginEnd="24dp"
             android:textAppearance="?attr/textAppearanceBody2"
             android:textColor="@color/material_on_surface_emphasis_medium"
             android:text="email here" />
+        <TextView
+            android:id="@+id/tvGerenteStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="0dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
+            android:textAppearance="?attr/textAppearanceBody2"
+            android:textColor="@color/green"
+            android:visibility="invisible"
+            android:text="Gerente" />
+        <ProgressBar
+            android:id="@+id/loadingSpinner"
+            android:layout_width="28dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="0dp"
+            android:layout_marginLeft="0dp"/>
 
 
         <androidx.cardview.widget.CardView

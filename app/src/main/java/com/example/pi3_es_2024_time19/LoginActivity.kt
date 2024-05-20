@@ -3,6 +3,7 @@ package com.example.pi3_es_2024_time19
 import android.content.Context
 import android.content.Intent
 import android.inputmethodservice.Keyboard
+import android.media.MediaPlayer
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.inputmethod.InputMethodManager
@@ -21,6 +22,7 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
     private lateinit var auth: FirebaseAuth
     private lateinit var btnRecoveryPassword: Button
+    private lateinit var mediaPlayer: MediaPlayer
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setupBinding()
@@ -69,6 +71,7 @@ class LoginActivity : AppCompatActivity() {
         ).addOnCompleteListener(this) { task ->
             if (task.isSuccessful) {
                 Toast.makeText(this, "User Logged In :)", Toast.LENGTH_SHORT).show()
+                playSound(R.raw.coin_sfx)
                 openMainActivity()
             } else {
                 Toast.makeText(this, "(!) Login Failed - Check Connection", Toast.LENGTH_LONG).show()
@@ -99,5 +102,26 @@ class LoginActivity : AppCompatActivity() {
 
     private fun setupBinding() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
+    }
+
+    private fun playSound(rawFile: Int) {
+        if (!this::mediaPlayer.isInitialized) {
+            mediaPlayer = MediaPlayer.create(this, rawFile)
+        }
+        if (mediaPlayer.isPlaying) {
+            mediaPlayer.pause()
+            mediaPlayer.seekTo(0)
+        } else {
+            mediaPlayer.start()
+        }
+
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        if (this::mediaPlayer.isInitialized) {
+            mediaPlayer.stop()
+            mediaPlayer.release()
+        }
     }
 }

@@ -77,14 +77,17 @@ class PaymentFragment : Fragment() {
     }
 
     private fun loadCardsFromFirestore() {
+        showLoading()
         collectionRef.get()
             .addOnSuccessListener { documents ->
+                hideLoading()
                 cardList.clear()
                 cardList.addAll(documents.toObjects(Card::class.java))
                 rvCard.adapter?.notifyDataSetChanged()
                 Log.d("PaymentFragment", "Dados recuperados com sucesso.")
             }
             .addOnFailureListener { exception ->
+                hideLoading()
                 Toast.makeText(
                     context,
                     "Erro ao recuperar os dados: ${exception.message}",
@@ -127,6 +130,14 @@ class PaymentFragment : Fragment() {
                 ).show()
                 Log.i("PaymentFragment", "Erro ao adicionar o cartão ao Firestore: ", exception)
             }
+    }
+
+    private fun showLoading() {
+        binding.loadingSpinner.visibility = View.VISIBLE
+    }
+
+    private fun hideLoading() {
+        binding.loadingSpinner.visibility = View.INVISIBLE
     }
 
     companion object {
