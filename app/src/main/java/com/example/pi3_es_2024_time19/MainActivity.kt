@@ -2,6 +2,8 @@ package com.example.pi3_es_2024_time19
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.pi3_es_2024_time19.databinding.ActivityMainBinding
@@ -9,16 +11,22 @@ import com.example.pi3_es_2024_time19.fragments.AccountFragment
 import com.example.pi3_es_2024_time19.fragments.LockersFragment
 import com.example.pi3_es_2024_time19.fragments.MapsFragment
 import com.example.pi3_es_2024_time19.fragments.PaymentFragment
+import com.example.pi3_es_2024_time19.models.UserData
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.auth
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.firestore
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var auth: FirebaseAuth
     private lateinit var user: FirebaseUser
+    private lateinit var db: FirebaseFirestore
+    private lateinit var userData: UserData
+    private var isManager: Boolean = false
     private var mapTutorialCount = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,12 +44,40 @@ class MainActivity : AppCompatActivity() {
         replaceFragment(LockersFragment())
 
         addNavbarListener()
-//        val gson = Gson()
+        //val gson = Gson()
 
-        initFirebaseAuth()
+        // Setup firebase auth
+        auth = Firebase.auth
+        db = Firebase.firestore
         // Assign user
         user = auth.currentUser as FirebaseUser
-//        Toast.makeText(this, "UID=${user.uid}", Toast.LENGTH_SHORT).show()
+        getUserData()
+    }
+
+    private fun getUserData() {
+        db.collection("user_data")
+            .whereEqualTo("uid", "${user.uid}")
+            .get()
+            .addOnSuccessListener{ documents ->
+                if (documents.isEmpty) {
+                    Log.d("QUERY FAILED", "Size of query is zero")
+                } else {
+                    for (doc in documents) {
+                        userData = doc.toObject(UserData::class.java)
+                        isManager = doc.get("manager") as Boolean
+                        Log.d("USER_DATA (main actiivty)", "$userData")
+                        break
+                    }
+                    val btnPagamento = findViewById<View>(R.id.btnPagePayment)
+                    /*if (isManager) {
+                    } else {
+                        btnPagamento.isEnabled = true
+                    }*/
+                }
+            }
+            .addOnFailureListener {
+                Toast.makeText(this, "Erro ocorreu, verifique conexão e tente novamente!", Toast.LENGTH_SHORT).show()
+            }
     }
 
     private fun setToolbarTitle(title: String) {
@@ -101,9 +137,4 @@ class MainActivity : AppCompatActivity() {
 //            super.onBackPressed()
 //        }
 //    }
-
-    private fun initFirebaseAuth() {
-        // Initialize Firebase Auth
-        auth = Firebase.auth
-    }
 }

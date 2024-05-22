@@ -11,12 +11,18 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.pi3_es_2024_time19.R
 import com.example.pi3_es_2024_time19.activities.RegisterCardActivity
 import com.example.pi3_es_2024_time19.adapters.CardAdapter
 import com.example.pi3_es_2024_time19.databinding.FragmentPaymentBinding
 import com.example.pi3_es_2024_time19.models.Card
+import com.example.pi3_es_2024_time19.models.UserData
+import com.google.firebase.Firebase
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.auth
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.firestore
 
 class PaymentFragment : Fragment() {
 
@@ -27,15 +33,25 @@ class PaymentFragment : Fragment() {
     private val firestore by lazy {
         FirebaseFirestore.getInstance()
     }
+    private lateinit var auth: FirebaseAuth
+    private lateinit var db: FirebaseFirestore
+    private lateinit var userData: UserData
+    private var isManager: Boolean = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        // Setup binding
         binding = FragmentPaymentBinding.inflate(inflater, container, false)
 
+        // Setup collection ref
         collectionRef = firestore.collection("cartoes")
+        // Setup cardList
         cardList = mutableListOf()
+        // Setup firebase auth
+        auth = Firebase.auth
+        db = Firebase.firestore
 
         rvCard = binding.rvCards
         rvCard.layoutManager = LinearLayoutManager(context)
@@ -45,7 +61,42 @@ class PaymentFragment : Fragment() {
 
         loadCardsFromFirestore()
 
+        getUserData()
+
         return binding.root
+    }
+
+    private fun getUserData() {
+        showLoading()
+        db.collection("user_data")
+            .whereEqualTo("uid", "${auth.currentUser?.uid}")
+            .get()
+            .addOnSuccessListener{ documents ->
+                hideLoading()
+                if (documents.isEmpty) {
+                    Log.d("QUERY FAILED", "Size of query is zero")
+                } else {
+                    for (doc in documents) {
+                        userData = doc.toObject(UserData::class.java)
+                        isManager = doc.get("manager") as Boolean
+                        Log.d("USER_DATA (main actiivty)", "$userData")
+                        break
+                    }
+                    if (isManager) {
+                        binding.rvCards.visibility = View.INVISIBLE
+                        binding.btnAddNewCard.visibility = View.INVISIBLE
+                        binding.tvNenhumCartao.visibility = View.VISIBLE
+                        binding.tvNenhumCartao.text = "Você é gerente, portanto, não pode usar nem cadastrar cartões."
+                    } else {
+                        binding.rvCards.visibility = View.VISIBLE
+                        binding.btnAddNewCard.visibility = View.VISIBLE
+                    }
+                }
+            }
+            .addOnFailureListener {
+                hideLoading()
+                Toast.makeText(requireContext(), "Erro ocorreu, verifique conexão e tente novamente!", Toast.LENGTH_SHORT).show()
+            }
     }
 
     private fun removeCard(card: Card) {
@@ -78,13 +129,19 @@ class PaymentFragment : Fragment() {
 
     private fun loadCardsFromFirestore() {
         showLoading()
-        collectionRef.get()
+        collectionRef
+            .whereEqualTo("uid", auth.currentUser?.uid)
+            .get()
             .addOnSuccessListener { documents ->
                 hideLoading()
-                cardList.clear()
                 cardList.addAll(documents.toObjects(Card::class.java))
                 rvCard.adapter?.notifyDataSetChanged()
-                Log.d("PaymentFragment", "Dados recuperados com sucesso.")
+                // Change view dinamically based on num of cardss
+                if (cardList.isEmpty()) {
+                    binding.tvNenhumCartao.visibility = View.VISIBLE
+                } else {
+                    binding.tvNenhumCartao.visibility = View.INVISIBLE
+                }
             }
             .addOnFailureListener { exception ->
                 hideLoading()
@@ -105,6 +162,10 @@ class PaymentFragment : Fragment() {
             card?.let {
                 onCardAdded(it)
             }
+            println("card null? = ${card == null}")
+            if (card != null) {
+                cardList.add(card)
+            }
         }
     }
 
@@ -118,7 +179,9 @@ class PaymentFragment : Fragment() {
         card.id = cardId
 
         // Adicionar ao Firestore
-        collectionRef.document(cardId).set(card)
+        collectionRef
+            .document(cardId)
+            .set(card)
             .addOnSuccessListener {
                 Log.i("PaymentFragment", "Cartão adicionado ao Firestore com sucesso.")
             }

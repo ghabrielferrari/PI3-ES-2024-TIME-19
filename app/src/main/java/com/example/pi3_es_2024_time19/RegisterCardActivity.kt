@@ -151,7 +151,7 @@ class RegisterCardActivity : AppCompatActivity() {
     }
 
     private fun proceedWithCardRegistration() {
-        val card = Card(user.id, numberCard, fullName, CPF, expirationDate, CCV)
+        val card = Card(user.id, numberCard, fullName, CPF, expirationDate, CCV, firebaseAuth.uid.toString())
         sendCardToPaymentFragment(card)
         showDialogSuccess(card)
     }

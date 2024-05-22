@@ -10,5 +10,6 @@ data class Card(
     var fullName: String = "",
     var CPF: String = "",
     var expirationDate: String = "",
-    var CCV: String = ""
+    var CCV: String = "",
+    var uid: String = ""
 ) : Parcelable

@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:layout_margin="10dp"
+    android:padding="20dp"
     tools:context=".activities.RegisterCardActivity">
 
     <androidx.appcompat.widget.AppCompatTextView
@@ -22,7 +22,7 @@
         android:id="@+id/textInputNumberCard"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="90dp"
+        android:layout_marginTop="50dp"
         android:hint="Número Cartão"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         >
@@ -143,13 +143,14 @@
         android:layout_marginStart="8dp"
         />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnAddCard"
         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="60dp"
-        android:text="ADICIONAR CARTÃO"
-        android:textColor="@color/green" />
+        android:text="$ ADICIONAR CARTÃO"
+        android:backgroundTint="@color/green"
+        android:textColor="@color/white"/>
 
 </androidx.appcompat.widget.LinearLayoutCompat>

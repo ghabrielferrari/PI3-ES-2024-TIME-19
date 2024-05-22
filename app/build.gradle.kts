@@ -53,6 +53,9 @@ dependencies {
     implementation("com.google.android.gms:play-services-auth:21.0.0")
     implementation("com.google.android.gms:play-services-location:21.2.0")
 
+    // QR CODE
+    //implementation("androidmads.library.qrgenearator:QRGenearator:1.0.3")
+
     // CameraX core library
     val camerax_version = "1.2.2"
     implementation("androidx.camera:camera-core:${camerax_version}")
