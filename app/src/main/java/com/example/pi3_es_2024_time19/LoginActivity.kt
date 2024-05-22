@@ -42,11 +42,11 @@ class LoginActivity : AppCompatActivity() {
             val passwordText = binding.tvPassword.text
 
             if (emailText?.isEmpty() == true) {
-                binding.tvEmail.error = "Digite seu email"
+                binding.tlEmail.error = "Digite seu email"
 
             }
             if (passwordText?.isEmpty() == true) {
-                binding.tvPassword.error = "Digite sua senha"
+                binding.tlPassword.error = "Digite sua senha"
 
             }
             if (emailText?.isNotEmpty() == true && passwordText?.isNotEmpty() == true) {
@@ -74,7 +74,8 @@ class LoginActivity : AppCompatActivity() {
                 playSound(R.raw.coin_sfx)
                 openMainActivity()
             } else {
-                Toast.makeText(this, "(!) Login Failed - Check Connection", Toast.LENGTH_LONG).show()
+                binding.tlEmail.error = "."
+                binding.tlPassword.error = "email ou senha incorreta"
             }
         }
     }

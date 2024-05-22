@@ -13,7 +13,7 @@ import com.example.pi3_es_2024_time19.models.Locker
 
 class AdapterArmarioListItem(
     private val lockers: MutableList<Locker>
-//    private val action1Listener:
+//    private val action1Listener: TODO
 ) : RecyclerView.Adapter<AdapterArmarioListItem.ArmarioViewHolder>() {
 
     override fun onCreateViewHolder(
@@ -54,13 +54,13 @@ class AdapterArmarioListItem(
         val layoutLogo: LinearLayout = itemView.findViewById(R.id.layoutLocksLogo)
 
         init {
-//            btnAction.setOnClickListener {
-//                TODO
-//            }
+            btnAction.setOnClickListener {
+                //TODO
+            }
 
-//            btnDanger.setOnClickListener {
-//                TODO
-//            }
+            btnDanger.setOnClickListener {
+                //TODO
+            }
         }
     }
 }

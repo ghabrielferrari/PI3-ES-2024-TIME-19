@@ -18,34 +18,39 @@ import com.google.android.gms.location.LocationServices
 import android.Manifest
 import android.content.Intent
 import android.view.View
+import com.google.android.gms.maps.model.LatLng
+import com.google.firebase.Firebase
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.firestore
+import kotlin.math.abs
 
 class GetLocationActivity : AppCompatActivity() {
     private lateinit var binding: ActivityGetLocationBinding
+    private lateinit var db: FirebaseFirestore
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     private val LOCATION_PERMISSION_REQUEST_CODE = 1
+    private val permissions = arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION)
+    private val locations = mutableListOf<LatLng>()
+    private lateinit var userLocation: LatLng
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setBinding()
+        // Setup binding
+        binding = ActivityGetLocationBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        setFusedLocationProviderClient()
+        db = Firebase.firestore
+
+        // Setup FusedLocationProviderClient
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
 
         checkLocationPermission()
-    }
-
-    private fun setBinding() {
-        binding = ActivityGetLocationBinding.inflate(layoutInflater)
-    }
-
-    private fun setFusedLocationProviderClient() {
-        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
     }
 
     private fun checkLocationPermission() {
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // Request permission if not granted
-            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION), LOCATION_PERMISSION_REQUEST_CODE)
+            ActivityCompat.requestPermissions(this, permissions, LOCATION_PERMISSION_REQUEST_CODE)
             binding.statusText.text = "Volte Para a tela anterior e clique o botão Alugar Novo Armario novamente"
         } else {
             getLastKnownLocation()
@@ -55,7 +60,7 @@ class GetLocationActivity : AppCompatActivity() {
     private fun getLastKnownLocation() {
         showLoading()
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION), LOCATION_PERMISSION_REQUEST_CODE)
+            ActivityCompat.requestPermissions(this, permissions, LOCATION_PERMISSION_REQUEST_CODE)
             hideLoading()
             return
         }
@@ -67,12 +72,14 @@ class GetLocationActivity : AppCompatActivity() {
                 val latitude = location.latitude
                 val longitude = location.longitude
                 println("user location: ($latitude , $longitude)")
-                binding.statusText.text = "user location: ($latitude , $longitude)"
+                userLocation = LatLng(latitude, longitude)
+                binding.statusText.text = "Localização adquirida"
+                getLocksLocations()
             }
             .addOnFailureListener {
                 hideLoading()
                 println("Failed to get location :(")
-                binding.statusText.text = "Failed to get location :("
+                binding.statusText.text = "Failed to get location, Check internet"
             }
     }
 
@@ -83,6 +90,38 @@ class GetLocationActivity : AppCompatActivity() {
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         getLastKnownLocation()
+    }
+
+    private fun getLocksLocations() {
+        db.collection("locais")
+            .get()
+            .addOnSuccessListener {locs ->
+                for (loc in locs) {
+                    locations.add(LatLng(
+                        loc.get("lat") as Double,
+                        loc.get("long") as Double
+                        )
+                    )
+                }
+                if (locs.isEmpty) {
+                    binding.statusText.text = "Ainda não há locais de armários para serem alugados"
+                }
+                var podeAlugar = false
+                for (loc in locations) {
+                    if (abs(userLocation.latitude - loc.latitude) <= 0.005 && abs(userLocation.longitude - loc.longitude) <= 0.005) {
+                        podeAlugar = true
+                        break
+                    }
+                }
+                if (podeAlugar) {
+                    openQrCodeActivity()
+                } else {
+                    binding.statusText.text = "Você está longe demais de um armário :(, va até um dos nossos armários é só pesquisar no mapa do própio aplicativo para ver os locais disponíveis!"
+                }
+            }
+            .addOnFailureListener {
+                binding.statusText.text = "Failed to get locations :(, check internet and try again later"
+            }
     }
 
     private fun openQrCodeActivity() {

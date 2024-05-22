@@ -4,20 +4,19 @@
     <!-- Permissions -->
     <!-- Network -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.INTERNET" />
-    <!-- Camera -->
+    <uses-permission android:name="android.permission.INTERNET" /> <!-- Camera -->
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <!-- Location -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> <!-- Location -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <!-- NFC -->
-    <uses-permission android:name="android.permission.NFC" />
-
-    <!-- Features -->
-    <uses-feature android:name="android.hardware.camera.any" android:required="true"/>
-    <uses-feature android:name="android.hardware.nfc" android:required="true" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> <!-- NFC -->
+    <uses-permission android:name="android.permission.NFC" /> <!-- Features -->
+    <uses-feature
+        android:name="android.hardware.camera.any"
+        android:required="true" />
+    <uses-feature
+        android:name="android.hardware.nfc"
+        android:required="true" />
 
     <application
         android:allowBackup="true"
@@ -29,6 +28,9 @@
         android:supportsRtl="true"
         android:theme="@style/lockers_theme"
         tools:targetApi="31">
+        <activity
+            android:name=".HistoryActivity"
+            android:exported="false" />
         <activity
             android:name=".CaptureQrCode"
             android:exported="false" />

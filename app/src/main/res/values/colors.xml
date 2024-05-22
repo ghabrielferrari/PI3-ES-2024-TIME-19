@@ -13,4 +13,5 @@
     <color name="gray">#aaaaaa</color>
     <color name="warning">#e3c100</color>
     <color name="green">#007733</color>
+    <color name="dark_red">#550000</color>
 </resources>

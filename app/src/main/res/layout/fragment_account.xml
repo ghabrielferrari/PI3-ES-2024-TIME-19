@@ -72,12 +72,30 @@
             android:layout_margin="20dp"
             app:cardCornerRadius="5dp">
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnVerifyEmail"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:text="Verificar email" />
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnVerifyEmail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:text="Verificar email"
+                    android:backgroundTint="@color/gray"
+                    app:icon="@drawable/baseline_account_circle_24"/>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnHistory"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:text="Histórico"
+                    android:backgroundTint="@color/gray"
+                    app:icon="@drawable/baseline_access_time_24"/>
+
+            </LinearLayout>
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnLogout"
@@ -85,7 +103,9 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
                 android:layout_margin="10dp"
-                android:text="Sair" />
+                android:text="Sair"
+                app:icon="@drawable/baseline_logout_24"
+                android:backgroundTint="@color/dark_red"/>
 
         </androidx.cardview.widget.CardView>
 

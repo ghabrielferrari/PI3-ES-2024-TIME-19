@@ -12,6 +12,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import com.example.pi3_es_2024_time19.AppEntryActivity
 import com.example.pi3_es_2024_time19.CreateAccountActivity
+import com.example.pi3_es_2024_time19.HistoryActivity
 import com.example.pi3_es_2024_time19.R
 import com.example.pi3_es_2024_time19.databinding.FragmentAccountBinding
 import com.example.pi3_es_2024_time19.models.UserData
@@ -84,6 +85,11 @@ class AccountFragment : Fragment() {
                 }
         }
 
+        binding.btnHistory.setOnClickListener {
+            val intent = Intent(requireContext(), HistoryActivity::class.java)
+            startActivity(intent)
+        }
+
         binding.btnLogout.setOnClickListener {
             Toast.makeText(context, "User Logged Out", Toast.LENGTH_SHORT).show()
             signOut()
@@ -128,6 +134,7 @@ class AccountFragment : Fragment() {
                         user_data = doc.toObject(UserData::class.java)
                         isManager = doc.get("manager") as Boolean
                         Log.d("USER_DATA", "$user_data")
+                        break
                     }
                     bindUserDataToView()
                 }
@@ -136,7 +143,6 @@ class AccountFragment : Fragment() {
                 hideLoading()
                 Toast.makeText(context, "Erro ocorreu, verifique conexão e tente novamente!", Toast.LENGTH_SHORT).show()
             }
-
     }
 
     private fun bindUserDataToView() {
@@ -186,8 +192,6 @@ class AccountFragment : Fragment() {
             mediaPlayer.seekTo(0)
         }
         mediaPlayer.start()
-
-
     }
 
     private fun showLoading() {
@@ -205,6 +209,5 @@ class AccountFragment : Fragment() {
             mediaPlayer.release()
         }
     }
-
 
 }
