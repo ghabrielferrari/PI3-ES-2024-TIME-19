@@ -2,7 +2,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!-- Barra superior -->
+
     <LinearLayout
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
@@ -24,30 +24,43 @@
 
     </LinearLayout>
 
-    <!-- QR Code -->
-    <ImageView
-        android:id="@+id/ivQRCode"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:src="@drawable/qrcode"
-        android:contentDescription="@string/qrcode"/>
-
-    <!-- Mensagem para escanear o código -->
     <TextView
-        android:id="@+id/tvScanMessage"
+        android:id="@+id/tvPessoas"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Escaneie o QR code"
+        android:text="Quantas pessoas alugarão esse armário?"
+        android:textSize="24sp"
         android:textColor="@android:color/black"
-        android:textSize="32sp"
-        android:layout_below="@id/ivQRCode"
+        android:layout_below="@id/btn1pessoa"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="16dp"/>
+        android:gravity="center"
+        android:layout_marginTop="-128dp"/>
+    />
 
-    <!-- Botão "Próximo" -->
+    <!-- Botão "1 Pessoa" -->
     <Button
-        android:id="@+id/btnNext"
+        android:id="@+id/btn1pessoa"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="1 Pessoa"
+        android:textColor="@android:color/white"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"/>
+
+    <!-- Botão "2 Pessoas" -->
+
+    <Button
+        android:id="@+id/btn2pessoas"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btn1pessoa"
+        android:layout_centerHorizontal="true"
+        android:text="2 Pessoas"
+        android:textColor="@android:color/white" />
+
+
+    <Button
+        android:id="@+id/btnProximo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Próximo"
