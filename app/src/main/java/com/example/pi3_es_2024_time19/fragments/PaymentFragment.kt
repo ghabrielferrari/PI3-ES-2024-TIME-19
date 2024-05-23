@@ -66,6 +66,7 @@ class PaymentFragment : Fragment() {
         return binding.root
     }
 
+    // Get user_data from collection in firestore
     private fun getUserData() {
         showLoading()
         db.collection("user_data")
