@@ -84,6 +84,22 @@
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="20dp">
+    <Button
+        android:id="@+id/btnNLoginMap"
+        android:drawableLeft="@drawable/baseline_add_location_24"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="?attr/materialButtonStyle"
+        android:text="Mapa"/>
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
 <!--    <Button-->
 <!--        android:id="@+id/btnOpenMainActivity"-->
 <!--        android:layout_width="wrap_content"-->
