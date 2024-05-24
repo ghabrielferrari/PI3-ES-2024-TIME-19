@@ -20,7 +20,7 @@ class RentLockerActivity : AppCompatActivity() {
     private  val firestore by lazy{
         FirebaseFirestore.getInstance()
     }
-
+    private var textViewClicked = false
     
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,8 +48,6 @@ class RentLockerActivity : AppCompatActivity() {
             alertDialogBtnCancelOp(this){}
         }
     }
-
-
 
     private fun loadPriceFromFirestore(selectedTime: String) {
         val field = when(selectedTime) {
@@ -87,32 +85,35 @@ class RentLockerActivity : AppCompatActivity() {
     //Função para escolher o tempo de locação
     private fun pickerAlertDialogTime(textView : TextView){
         val timePickerOptions = arrayOf("30 minutos", "1 hora", "2 horas", "3 horas","+4 horas")
-
         val builder = AlertDialog.Builder(this)
         builder.setTitle("Selecione a quantidade horas para a locação")
             .setItems(timePickerOptions){ dialog, which ->
                 val timeOption = timePickerOptions[which]
                 textView.text = timeOption
-
+// Atualize a variável de estado para indicar que o TextView foi clicado
+                textViewClicked = true
+                // Atualize o preço do Firestore
                 loadPriceFromFirestore(timeOption)
-
                 dialog.dismiss()
             }
         val dialog = builder.create()
         dialog.show()
     }
 
-
     //Função AlertDialog com o contrato após pressionar botão de continuar com a locação do armário
-    private fun alertDialogBtnNextOp(context: Context, onAcceptClick:() -> Unit){
+    private fun alertDialogBtnNextOp(context: Context, onAcceptClick:() -> Unit) {
         val builder: AlertDialog.Builder = AlertDialog.Builder(context)
         builder
             .setMessage("Será cobrado no cartão de crédito o valor de uma diária, e posteriormente estornado a diferença do total usado.")
             .setTitle("Contrato")
-            .setPositiveButton("Aceitar") { _ , _ ->
-                onAcceptClick()
-                val intent = Intent(this,QrcodeActivity::class.java)
-                startActivity(intent)
+            .setPositiveButton("Aceitar") { _, _ ->
+                if (textViewClicked) {
+                    onAcceptClick()
+                    val intent = Intent(this, QrcodeActivity::class.java)
+                    startActivity(intent)
+                } else {
+                    Toast.makeText(applicationContext, "Selecione o tempo de locação primeiro.", Toast.LENGTH_SHORT).show()
+                }
             }
             .setNegativeButton("Negar") { dialog, _ ->
                 dialog.dismiss()
