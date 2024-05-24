@@ -1,8 +1,6 @@
 package com.example.pi3_es_2024_time19
 
-import android.content.Context
 import android.content.Intent
-import android.inputmethodservice.Keyboard
 import android.media.MediaPlayer
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -10,12 +8,12 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.Toast
 import com.example.pi3_es_2024_time19.databinding.ActivityLoginBinding
+import com.example.pi3_es_2024_time19.fragments.MapsFragment
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
-import kotlinx.coroutines.delay
-import kotlin.concurrent.timerTask
+
 
 class LoginActivity : AppCompatActivity() {
 
@@ -23,6 +21,7 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
     private lateinit var btnRecoveryPassword: Button
     private lateinit var mediaPlayer: MediaPlayer
+    private lateinit var btnNLoginMap:Button
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setupBinding()
@@ -57,11 +56,15 @@ class LoginActivity : AppCompatActivity() {
             hideKeyboard()
         }
 
-        binding.btnCreateAccount.setOnClickListener({
-            val intent: Intent = Intent(this, CreateAccountActivity::class.java)
+        binding.btnCreateAccount.setOnClickListener{
+            val intent = Intent(this, CreateAccountActivity::class.java)
             startActivity(intent)
-        })
+        }
 
+        binding.btnNLoginMap.setOnClickListener{
+            val intent = Intent(this, MapsFragment::class.java)
+            startActivity(intent)
+        }
     }
 
     private fun signIn(email: String,password: String) {
@@ -85,7 +88,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun openMainActivity() {
-        val intent: Intent = Intent(this, MainActivity::class.java)
+        val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
     }
 
