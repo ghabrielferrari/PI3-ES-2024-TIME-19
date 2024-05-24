@@ -53,8 +53,13 @@ dependencies {
     implementation("com.google.android.gms:play-services-auth:21.0.0")
     implementation("com.google.android.gms:play-services-location:21.2.0")
 
-    // QR CODE
-    //implementation("androidmads.library.qrgenearator:QRGenearator:1.0.3")
+    // QR CODE SCAN
+    implementation("com.google.mlkit:barcode-scanning-common:17.0.0")
+    implementation("com.google.android.gms:play-services-mlkit-barcode-scanning:18.3.0")
+    implementation("androidx.camera:camera-mlkit-vision:1.4.0-beta01")
+    // QR CODE GEN
+    implementation("com.journeyapps:zxing-android-embedded:4.3.0") // Check for the latest version
+    implementation("com.google.zxing:core:3.4.1") // Check for the latest version
 
     // CameraX core library
     val camerax_version = "1.2.2"

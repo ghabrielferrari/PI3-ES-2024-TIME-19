@@ -68,11 +68,11 @@ class MainActivity : AppCompatActivity() {
                         Log.d("USER_DATA (main actiivty)", "$userData")
                         break
                     }
-                    val btnPagamento = findViewById<View>(R.id.btnPagePayment)
-                    /*if (isManager) {
+                    if (isManager) {
+                        setToolbarTitle("Locks para Gerente")
                     } else {
-                        btnPagamento.isEnabled = true
-                    }*/
+                        setToolbarTitle("Locks")
+                    }
                 }
             }
             .addOnFailureListener {

@@ -159,8 +159,10 @@ class AccountFragment : Fragment() {
 
         if (isManager) {
             binding.tvGerenteStatus.visibility = View.VISIBLE
+            binding.btnHistory.visibility = View.INVISIBLE
         } else {
             binding.tvGerenteStatus.visibility = View.INVISIBLE
+            binding.btnHistory.visibility = View.VISIBLE
         }
     }
 
