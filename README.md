@@ -1,6 +1,14 @@
 # Projeto Integrador Time 19 Puccampinas 2024
 ##### Membros: Breno, Rafael, Gabriel, Guilherme
 
+# Contas de teste:
+## CONTA CLIENTE
+EMAIL = linguiça@gmail.com
+SENHA: 123456
+## CONTA GERENTE
+EMAIL = metalifecrypto@gmail.com
+SENHA: 123456
+
 # Descrição do projeto (OBS: pule para tópico 5 caso já tenha lido)
 1. ## Apresentação do problema
 Na atualidade, turistas costumam levar seus pertences e equipamentos eletrônicos à praia,
