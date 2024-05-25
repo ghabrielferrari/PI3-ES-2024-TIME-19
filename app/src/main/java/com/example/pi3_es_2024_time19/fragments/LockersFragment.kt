@@ -11,7 +11,9 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.pi3_es_2024_time19.CaptureQrCode
 import com.example.pi3_es_2024_time19.GetLocationActivity
+import com.example.pi3_es_2024_time19.QrcodeActivity
 import com.example.pi3_es_2024_time19.R
 import com.example.pi3_es_2024_time19.adapters.AdapterArmarioListItem
 import com.example.pi3_es_2024_time19.RentLockerActivity
@@ -94,7 +96,7 @@ class LockersFragment : Fragment() {
 
     private fun getUserData() {
         showLoading()
-        val query = db.collection("user_data")
+        db.collection("user_data")
             .whereEqualTo("uid", "${auth.currentUser?.uid}")
             .get()
             .addOnSuccessListener{ documents ->
@@ -126,6 +128,7 @@ class LockersFragment : Fragment() {
             .get()
             .addOnSuccessListener { docs ->
                 for (doc in docs) {
+                    println(doc.data)
                     lockers.add(Locker(
                         doc.get("name").toString(),
                         doc.get("status").toString(),
@@ -160,6 +163,7 @@ class LockersFragment : Fragment() {
                     binding.tvNenhumArmario.visibility = View.INVISIBLE
                 }
                 for (doc in docs) {
+                    println(doc.data)
                     if ((doc.get("timestamp_fim") as Timestamp).compareTo(Timestamp.now()) > 0) {
                         lockers.add(Locker(
                             doc.get("nome_armario").toString(),

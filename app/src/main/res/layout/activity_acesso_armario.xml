@@ -8,7 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:orientation="horizontal"
-        android:gravity="center_vertical"
+        android:gravity="center_horizontal"
         android:background="?attr/colorPrimary">
 
 
@@ -16,11 +16,11 @@
         <TextView
             android:id="@+id/tvTitle"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:text="Liberar Locação do Armário"
             android:textColor="@android:color/white"
             android:textSize="24sp"
-            android:layout_marginStart="64dp"/>
+            android:gravity="center"/>
 
     </LinearLayout>
 
@@ -28,46 +28,38 @@
         android:id="@+id/tvPessoas"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Quantas pessoas alugarão esse armário?"
+        android:text="Quantas pessoas terão acesso a esse armário?"
         android:textSize="24sp"
         android:textColor="@android:color/black"
         android:layout_below="@id/btn1pessoa"
         android:layout_centerHorizontal="true"
         android:gravity="center"
-        android:layout_marginTop="-128dp"/>
+        android:layout_marginTop="-200dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"/>
     />
 
     <!-- Botão "1 Pessoa" -->
     <Button
         android:id="@+id/btn1pessoa"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="200dp"
+        android:layout_height="80dp"
         android:text="1 Pessoa"
         android:textColor="@android:color/white"
         android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"/>
+        android:layout_centerVertical="true"
+        android:textSize="20dp" />
 
     <!-- Botão "2 Pessoas" -->
 
     <Button
         android:id="@+id/btn2pessoas"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="200dp"
+        android:layout_height="80dp"
         android:layout_below="@id/btn1pessoa"
         android:layout_centerHorizontal="true"
         android:text="2 Pessoas"
-        android:textColor="@android:color/white" />
-
-
-    <Button
-        android:id="@+id/btnProximo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Próximo"
         android:textColor="@android:color/white"
-        android:backgroundTint="@color/green"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="16dp"/>
+        android:textSize="20dp" />
 
 </RelativeLayout>

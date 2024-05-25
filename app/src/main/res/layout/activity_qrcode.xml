@@ -38,15 +38,6 @@
         android:layout_below="@id/textViewInstructions"
         android:src="@drawable/qrcode" />
 
-    <ProgressBar
-        android:id="@+id/loadingSpinner"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
-        android:layout_alignBottom="@id/imageViewQRCode"
-        android:layout_below="@+id/imageViewQRCode"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="28dp"/>
-
     <Button
         android:id="@+id/buttonFinish"
         android:layout_width="240dp"

@@ -36,6 +36,8 @@ class QrcodeActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         // TODO stuff below
+        val preco = intent.getDoubleExtra("preco", 0.0)
+        val horas = intent.getDoubleExtra("horas", 0.0)
 
         //Botão de finalizar a locação de armário
         binding.buttonFinish.setOnClickListener {
@@ -47,7 +49,8 @@ class QrcodeActivity : AppCompatActivity() {
 
         auth = Firebase.auth
 
-        val text: String = "uid${auth.currentUser?.uid}"
+        val text: String = "${auth.currentUser?.uid}:$preco:$horas"
+        println(text)
         val bitmap = generateQRCode(text, width, height)
 
         if (bitmap != null) {
@@ -61,8 +64,8 @@ class QrcodeActivity : AppCompatActivity() {
     private fun alertDialogSuccess (context:Context,onNeutralButtonClick:() -> Unit ) {
         val builder: AlertDialog.Builder = AlertDialog.Builder(context)
         builder
-            .setTitle("Sucesso")
-            .setMessage("Armário alugado com successo!")
+            .setTitle("Observação")
+            .setMessage("Armário será liberado pelo gerente, caso ainda nao foi liberado mostre o QR code para o gerente novamente!")
             .setNeutralButton("Fechar"){ _ , _ ->
                 onNeutralButtonClick()
             }

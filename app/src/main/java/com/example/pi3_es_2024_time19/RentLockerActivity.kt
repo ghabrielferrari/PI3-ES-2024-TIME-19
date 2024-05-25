@@ -20,7 +20,8 @@ class RentLockerActivity : AppCompatActivity() {
     private  val firestore by lazy{
         FirebaseFirestore.getInstance()
     }
-
+    private var price = 0.0
+    private var horas = 0.0
     
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,10 +38,19 @@ class RentLockerActivity : AppCompatActivity() {
             pickerAlertDialogTime(binding.tvTime)
         }
 
-
         //Botão de continuar operação
         binding.btnNext.setOnClickListener {
-            alertDialogBtnNextOp(this){}
+            if (horas == 0.0) {
+                showVerificationDialog(
+                    "Atenção",
+                    "Selecione quantas horas deseja alugar",
+                    "ok",
+                    "",
+                    ::doNothing
+                )
+            } else {
+                alertDialogBtnNextOp(this){}
+            }
         }
 
         //Botão de cancelar operação
@@ -48,8 +58,6 @@ class RentLockerActivity : AppCompatActivity() {
             alertDialogBtnCancelOp(this){}
         }
     }
-
-
 
     private fun loadPriceFromFirestore(selectedTime: String) {
         val field = when(selectedTime) {
@@ -60,11 +68,20 @@ class RentLockerActivity : AppCompatActivity() {
             "+4 horas" -> "+4 horas"
             else -> ""
         }
+        horas = when(selectedTime) {
+            "30 minutos" -> 0.3
+            "1 hora" -> 1.0
+            "2 horas" -> 2.0
+            "3 horas" -> 3.0
+            "+4 horas" -> 4.0
+            else -> 0.0
+        }
         if (field.isNotEmpty()) {
             collectionRef.document("wb61LNO5gKebnBcNVICC").get()
                 .addOnSuccessListener { documentSnapshot ->
                     if (documentSnapshot.exists()) {
-                        val price = documentSnapshot.getDouble(field)
+                        price = documentSnapshot.getDouble(field) as Double
+                        println("horas=$horas")
                         if (price != null) {
                             // Se encontrar o preço, atualiza o TextView tvRlPriceH
                             binding.tvRlPriceH.text = "R$ ${String.format("%.2f", price)}"
@@ -104,14 +121,16 @@ class RentLockerActivity : AppCompatActivity() {
 
 
     //Função AlertDialog com o contrato após pressionar botão de continuar com a locação do armário
-    private fun alertDialogBtnNextOp(context: Context, onAcceptClick:() -> Unit){
+    private fun alertDialogBtnNextOp(context: Context, onAcceptClick:() -> Unit) {
         val builder: AlertDialog.Builder = AlertDialog.Builder(context)
         builder
             .setMessage("Será cobrado no cartão de crédito o valor de uma diária, e posteriormente estornado a diferença do total usado.")
             .setTitle("Contrato")
             .setPositiveButton("Aceitar") { _ , _ ->
                 onAcceptClick()
-                val intent = Intent(this,QrcodeActivity::class.java)
+                val intent = Intent(this, QrcodeActivity::class.java)
+                intent.putExtra("horas", horas)
+                intent.putExtra("preco", price)
                 startActivity(intent)
             }
             .setNegativeButton("Negar") { dialog, _ ->
@@ -138,4 +157,25 @@ class RentLockerActivity : AppCompatActivity() {
         val dialog: AlertDialog = builder.create()
         dialog.show()
     }
+
+    private fun showVerificationDialog(title: String, message: String, positiveBtnText: String, negativeBtnText: String, positiveAction: () -> Unit) {
+        val builder: AlertDialog.Builder = AlertDialog.Builder(this)
+        builder
+            .setMessage(message)
+            .setTitle(title)
+            .setPositiveButton(positiveBtnText) { _, _ ->
+                positiveAction()
+            }
+            .setNegativeButton(negativeBtnText) { dialog, _ ->
+                dialog.dismiss()
+                doNothing()
+            }
+        val dialog: AlertDialog = builder.create()
+        dialog.show()
+    }
+
+    private fun doNothing(): Boolean {
+        return true
+    }
+
 }

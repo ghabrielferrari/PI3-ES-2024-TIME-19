@@ -13,14 +13,20 @@ import android.widget.Toast
 import androidx.compose.ui.text.capitalize
 import androidx.core.graphics.toColor
 import androidx.recyclerview.widget.RecyclerView
+import com.example.pi3_es_2024_time19.CancelarArmarios
+import com.example.pi3_es_2024_time19.CancelarScanQrCode
 import com.example.pi3_es_2024_time19.CaptureQrCode
 import com.example.pi3_es_2024_time19.R
+import com.example.pi3_es_2024_time19.VerFotosActivity
 import com.example.pi3_es_2024_time19.models.Locker
 
 class AdapterArmarioListItem(
     private val lockers: MutableList<Locker>
 //    private val action1Listener: TODO
 ) : RecyclerView.Adapter<AdapterArmarioListItem.ArmarioViewHolder>() {
+    private lateinit var nome_armario: String
+    private lateinit var status: String
+    private var isRented: Boolean = false
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -33,9 +39,8 @@ class AdapterArmarioListItem(
     override fun onBindViewHolder(holder: ArmarioViewHolder, position: Int) {
         val currentListItem = lockers[position]
         holder.tvTitle.text = currentListItem.name
-        holder.tvStatus.text = ">>> ${currentListItem.status} agora"
+        holder.tvStatus.text = "Status: ${currentListItem.status}"
         if (currentListItem.isRented == true) {
-//            holder.layoutLogo.setBackgroundColor(Color.parseColor("#00AA00"))
             holder.tvStatus.setTextColor(Color.parseColor("#00AA00"))
             holder.btnAction.text = "Cancelar"
             holder.btnAction.setTextColor(Color.parseColor("#ff0000"))
@@ -45,6 +50,27 @@ class AdapterArmarioListItem(
             //holder.tvStatus.setTextColor(Color.parseColor("#FFAA00"))
             holder.btnAction.text = "Liberar"
         }
+        nome_armario = currentListItem.name
+        status = currentListItem.status
+        isRented = currentListItem.isRented
+
+        holder.btnAction.setOnClickListener {
+            if (holder.btnAction.text.toString().uppercase() == "liberar".uppercase()) {
+                val intent = Intent(holder.btnAction.context, CaptureQrCode::class.java)
+                intent.putExtra("nome_armario", currentListItem.name)
+                intent.putExtra("status", currentListItem.status)
+                intent.putExtra("isRented", currentListItem.isRented)
+                holder.tvTitle.context.startActivity(intent)
+            }
+            if (holder.btnAction.text.toString().uppercase() == "cancelar".uppercase()) {
+                val intent = Intent(holder.btnAction.context, CancelarArmarios::class.java)
+                holder.btnAction.context.startActivity(intent)
+                //val intent = Intent(holder.btnAction.context, CancelarScanQrCode::class.java)
+                //holder.btnAction.context.startActivity(intent)
+            }
+        }
+
+
     }
 
     override fun getItemCount(): Int {
@@ -59,16 +85,11 @@ class AdapterArmarioListItem(
 
         init {
 
-            btnAction.setOnClickListener {
-                if (btnAction.text.toString().uppercase() == "liberar".uppercase()) {
-                    val intent = Intent(tvTitle.context, CaptureQrCode::class.java)
-                    tvTitle.context.startActivity(intent)
-                }
-                if (btnAction.text.toString().uppercase() == "cancelar".uppercase()) {
-                    Log.d("BOTAO CANCELAR", "BOTAO CLICKADO")
-                }
-            }
+            /*btnAction.setOnClickListener {
+
+            }*/
 
         }
     }
+
 }

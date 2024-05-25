@@ -61,6 +61,14 @@ class CaptureQrCode : AppCompatActivity() {
     private val TAG = "CaptureQrCode"
     private lateinit var mediaPlayer: MediaPlayer
 
+    private lateinit var nome_armario: String
+    private lateinit var status: String
+    private var isRented: Boolean = false
+    private lateinit var uid: String
+    private var preco: Double = 0.0
+    private var horas: Double = 0.0
+    private var isManager = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityCaptureQrCodeBinding.inflate(layoutInflater)
@@ -80,6 +88,11 @@ class CaptureQrCode : AppCompatActivity() {
 
         // Setup firebase firestore
         db = Firebase.firestore
+
+        // PEGAR DADOS DO INTENT
+        nome_armario = intent.getStringExtra("nome_armario") as String
+        status = intent.getStringExtra("status") as String
+        isRented = intent.getBooleanExtra("isRented", false)
     }
 
     private fun takePhoto() {}
@@ -146,8 +159,15 @@ class CaptureQrCode : AppCompatActivity() {
                         if (rawValue != null) {
                             // Do something with the extracted string value from the QR code
                             Log.d(TAG, "QR Code Value: $rawValue")
-                            if (rawValue.toString().substring(0,3).equals("uid")) {
-                                val uid = rawValue.toString().substring(3)
+                            if (rawValue.toString().split(':').size == 3) {
+                                uid = rawValue.toString().split(':')[0]
+                                preco = rawValue.toString().split(':')[1].toDouble()
+                                horas = rawValue.toString().split(':')[2].toDouble()
+                                println("preco=$preco, horas=$horas")
+                            } else {
+                                uid = "invalid uid"
+                            }
+                            if (uid.length == 28) {
                                 Log.d(TAG, "UID=$uid")
                                 getUserData(uid)
                                 cameraController.unbind()
@@ -245,7 +265,7 @@ class CaptureQrCode : AppCompatActivity() {
                                     "Deseja alugar armário para ${userData.nome_completo}",
                             "sim",
                             "cancelar",
-                            ::goToMainActivity
+                            ::goToAcessoArmarioActivity
                         )
                         break
                     }
@@ -272,8 +292,14 @@ class CaptureQrCode : AppCompatActivity() {
         binding.loadingSpinner.visibility = View.INVISIBLE
     }
 
-    private fun goToMainActivity() {
-        val intent = Intent(this, MainActivity::class.java)
+    private fun goToAcessoArmarioActivity() {
+        val intent = Intent(this, AcessoArmarioActivity::class.java)
+        intent.putExtra("nome_armario", nome_armario)
+        intent.putExtra("uid", userData.uid)
+        intent.putExtra("status", status)
+        intent.putExtra("isRented", isRented)
+        intent.putExtra("preco", preco)
+        intent.putExtra("horas", horas)
         startActivity(intent)
     }
 

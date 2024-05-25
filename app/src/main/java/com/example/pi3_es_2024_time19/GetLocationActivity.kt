@@ -114,7 +114,7 @@ class GetLocationActivity : AppCompatActivity() {
                     }
                 }
                 if (podeAlugar) {
-                    openQrCodeActivity()
+                    openRentLockerActivity()
                 } else {
                     binding.statusText.text = "Você está longe demais de um armário :(, va até um dos nossos armários é só pesquisar no mapa do própio aplicativo para ver os locais disponíveis!"
                 }
@@ -124,8 +124,8 @@ class GetLocationActivity : AppCompatActivity() {
             }
     }
 
-    private fun openQrCodeActivity() {
-        val intent = Intent(this, QrcodeActivity::class.java)
+    private fun openRentLockerActivity() {
+        val intent = Intent(this, RentLockerActivity::class.java)
         startActivity(intent)
     }
 
